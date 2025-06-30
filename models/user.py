@@ -1,5 +1,6 @@
 from infastructure.Database import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Enum
+from models.enums import *
 
 class Users(Base):
     __tablename__ = 'users'
@@ -10,5 +11,5 @@ class Users(Base):
     last_name = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    role = Column(String)
+    role = Column(Enum(UserRole, name="user_role"), nullable=False)
     phone_number = Column(String)
