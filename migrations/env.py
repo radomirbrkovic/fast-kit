@@ -4,6 +4,9 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+from models.user import Users
+from infastructure.Database import DEV_DATABASE_URL, Base
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,7 +21,11 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
+
+
+config.set_section_option("alembic", "sqlalchemy.url", DEV_DATABASE_URL)
+#config.set_section_option("testdb", "sqlalchemy.url", os.environ.get("TEST_DATABASE_URL"))
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
