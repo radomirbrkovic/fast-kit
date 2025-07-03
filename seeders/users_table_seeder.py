@@ -2,8 +2,6 @@ from sqlalchemy.orm import Session
 from models.user import Users
 from models.enums import UserRole
 from passlib.context import CryptContext
-from infastructure.Database import SessionLocal
-
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
