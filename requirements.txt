@@ -21,6 +21,7 @@ pydantic_core==2.33.2
 Pygments==2.19.2
 pytest==8.4.1
 python-dotenv==1.1.1
+python-multipart==0.0.20
 rich==14.0.0
 shellingham==1.5.4
 sniffio==1.3.1
