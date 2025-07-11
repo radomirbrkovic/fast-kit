@@ -18,4 +18,6 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
     if user is None:
         return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "Invalid credentials."})
     else:
+        request.session['auth_id'] = user.id
+        request.session['auth_name'] = user.first_name
         return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "User successfully authenticated."})
