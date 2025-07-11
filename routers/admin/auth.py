@@ -1,6 +1,10 @@
 from fastapi import Request, Form
 from fastapi.responses import HTMLResponse
+from models.enums import UserRole
 from routers.admin.admin import router, templates
+from services.auth_service import AuthService
+
+auth_service = AuthService()
 
 
 @router.get('/login', response_class=HTMLResponse)
@@ -9,4 +13,9 @@ async def login(request: Request):
 
 @router.post('/login', response_class=HTMLResponse)
 async def authenticate(request: Request, email: str = Form(), password: str= Form()):
-    return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "Invalid credentials."})
+    user = auth_service.authenticate(email, password, UserRole.SUPER_ADMIN)
+
+    if user is None:
+        return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "Invalid credentials."})
+    else:
+        return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "User successfully authenticated."})
