@@ -1,0 +1,9 @@
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from routers.admin.admin import guard_router, templates
+
+router = guard_router
+
+@router.get('/dashboard', response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse('dashboard.html', {'request': request})
