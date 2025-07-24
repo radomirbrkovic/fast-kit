@@ -1,16 +1,18 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from middlewares.admin_middleware import auth
 
-router = APIRouter(
+public_router = APIRouter(
     prefix='/admin',
     tags=['admin'],
     include_in_schema= False
 )
 
+guard_router = APIRouter(
+    prefix='/admin',
+    tags=['admin'],
+    include_in_schema= False,
+    dependencies=[Depends(auth)]
+)
+
 templates = Jinja2Templates(directory='templates/admin')
-
-
-@router.get('/dashboard', response_class=HTMLResponse)
-async def dashboard(request: Request):
-    return templates.TemplateResponse('dashboard.html', {'request': request})
