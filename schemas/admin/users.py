@@ -31,16 +31,3 @@ class UserOut(BaseModel):
 
     class Config:
         orm_mode = True
-
-class UserInDB(BaseModel):
-    id: int
-    email: str
-    first_name: str
-    last_name: str
-    hashed_password: str
-    is_active: bool
-    role: UserRole
-    phone_number: Optional[str] = None
-
-    class Config:
-        orm_mode = True
