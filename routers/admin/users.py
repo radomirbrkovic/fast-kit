@@ -6,4 +6,5 @@ router = guard_router
 
 @router.get('/users', response_class=HTMLResponse, name="admin.users.index")
 async def index(request: Request):
-    return templates.TemplateResponse('users/index.html', {'request': request})
+    query = request.query_params.get("q", "")
+    return templates.TemplateResponse('users/index.html', {'request': request, 'query': query})
