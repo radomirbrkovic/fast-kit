@@ -27,7 +27,17 @@ class UserOut(BaseModel):
     last_name: str
     is_active: bool
     role: UserRole
-    phone_number: Optional[str] = None
+    phone_number: Optional[str] = ''
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+        "use_enum_values": True
+    }
+
+    @property
+    def status(self) -> str:
+        return "Active" if self.is_active else "Inactive"
+
+    @property
+    def role_label(self) -> str:
+        return self.role.replace("_", " ").title()
