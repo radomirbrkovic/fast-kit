@@ -9,7 +9,7 @@ class CrudRepository(AbstractRepository):
     def find(self, id: int):
         return self.db.query(self.model).get(id)
 
-    def get(self):
+    def get(self, filters: dict = None):
         return self.db.query(self.model).all()
 
     def create(self, obj_in):

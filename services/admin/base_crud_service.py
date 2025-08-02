@@ -12,8 +12,8 @@ class BaseCrudService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def find(self, id: int) -> Optional[ModelType]:
         return self.repository.find(id)
 
-    def get(self) -> List[ModelType]:
-        return self.repository.get()
+    def get(self, filters: dict = None) -> List[ModelType]:
+        return self.repository.get(filters)
 
     def create(self, obj_in: CreateSchemaType) -> ModelType:
         return self.repository.create(obj_in)

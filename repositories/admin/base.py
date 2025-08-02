@@ -8,7 +8,7 @@ UpdateSchemaType = TypeVar("UpdateSchemaType")
 class AbstractRepository(ABC, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     @abstractmethod
-    def get(self) -> List[ModelType]:
+    def get(self, filters: dict = None) -> List[ModelType]:
         pass
 
     @abstractmethod
