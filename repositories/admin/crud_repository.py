@@ -14,8 +14,7 @@ class CrudRepository(AbstractRepository):
 
     def get(self, filters: dict = None):
         items = self.db.query(self.model)
-        if filters is not None and 'page' in filters and filters['page'] > 0:
-            items = items.limit(self.ITEMS_PER_PAGE).offset(self.ITEMS_PER_PAGE * (filters['page'] - 1))
+        items = self.paginate(items, filters)
         return items.all()
 
     def create(self, obj_in):
@@ -37,3 +36,8 @@ class CrudRepository(AbstractRepository):
         db_obj = self.find(id)
         self.db.delete(db_obj)
         self.db.commit()
+
+    def paginate(self, items, filters):
+        if filters is not None and 'page' in filters and filters['page'] > 0:
+            items = items.limit(self.ITEMS_PER_PAGE).offset(self.ITEMS_PER_PAGE * (filters['page'] - 1))
+        return items

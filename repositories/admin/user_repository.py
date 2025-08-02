@@ -21,7 +21,6 @@ class UserRepository(CrudRepository):
                 )
             )
 
-        if filters is not None and 'page' in filters and filters['page'] > 0:
-            users = users.limit(self.ITEMS_PER_PAGE).offset(self.ITEMS_PER_PAGE * (filters['page'] - 1))
+        users = self.paginate(users, filters)
 
         return users.all()
