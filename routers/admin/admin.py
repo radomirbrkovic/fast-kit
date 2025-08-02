@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
 from middlewares.admin_middleware import auth
+from infastructure.Database import SessionLocal
 
 public_router = APIRouter(
     prefix='/admin',
@@ -16,3 +17,10 @@ guard_router = APIRouter(
 )
 
 templates = Jinja2Templates(directory='templates/admin')
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
