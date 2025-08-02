@@ -9,6 +9,6 @@ class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
     def __init__(self, repo: UserRepository):
         super().__init__(repo)
 
-    def get(self) -> List[ModelType]:
-        users = super().get()
+    def get(self, filters: dict = None) -> List[ModelType]:
+        users = super().get(filters)
         return [UserOut.model_validate(user) for user in users]

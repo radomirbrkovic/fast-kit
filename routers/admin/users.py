@@ -16,5 +16,5 @@ async def index(
         request: Request,
         query: Optional[str]= "",
         service: UserService = Depends(get_service)):
-    users = service.get()
+    users = service.get({'query': query})
     return templates.TemplateResponse('users/index.html', {'request': request, 'query': query, 'users': users})
