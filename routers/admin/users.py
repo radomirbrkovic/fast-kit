@@ -10,9 +10,6 @@ router = guard_router
 def get_service(db: Session = Depends(get_db)):
     return UserService(UserRepository(db))
 
-
-
-
 @router.get('/users', response_class=HTMLResponse, name="admin.users.index")
 async def index(request: Request, service: UserService = Depends(get_service)):
     query = request.query_params.get("q", "")
