@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
 from middlewares.admin_middleware import auth
-from infastructure.Database import SessionLocal
+from infastructure.database import SessionLocal
 
 public_router = APIRouter(
     prefix='/admin',

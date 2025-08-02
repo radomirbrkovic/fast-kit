@@ -1,5 +1,5 @@
 import typer
-from infastructure.Database import SessionLocal
+from infastructure.database import SessionLocal
 from seeders import users_table_seeder
 
 app = typer.Typer()

@@ -1,4 +1,4 @@
-from infastructure.Database import Base
+from infastructure.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Enum
 from models.enums import *
 
