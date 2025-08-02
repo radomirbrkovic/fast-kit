@@ -13,6 +13,7 @@
               </div>
               <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
+                  {% if users|length > 0   %}
                   <table class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
                     <thead class="align-bottom">
                       <tr>
@@ -50,10 +51,11 @@
                         </td>
                       </tr>
                     {% endfor %}
-
-
                     </tbody>
                   </table>
+                    {% else %}
+                           <h6 class="mb-1 mt-1 p-2 text-sm leading-normal dark:text-white">No items can be found.</h6>
+                    {% endif %}
                 </div>
               </div>
             </div>
