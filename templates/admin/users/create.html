@@ -2,10 +2,11 @@
 {% set title = "Create user" %}
 {% block content %}
 <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
-            <form class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+            <form method="post" action="{{ url_for('admin.users.store') }}" class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
               <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
                 <div class="flex items-center">
                     <div class=" md:w-8/12">
+                           {% include 'partials/error_msg.html' %}
                     </div>
                      <div class="w-full md:w-4/12 flex justify-end space-x-2">
                             <button type="submit" class="px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-right transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85">Save</button>

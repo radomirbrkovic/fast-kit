@@ -39,11 +39,7 @@
                             </div>
                             <div class="flex-auto p-6">
 
-                                {% if error_msg is defined and error_msg is not none %}
-                                <div alert class="relative p-4 pr-12 mb-4 text-white border border-red-300 border-solid rounded-lg bg-gradient-to-tl from-red-600 to-orange-600">
-                                        {{ error_msg }}
-                                </div>
-                                {% endif %}
+                               {% include 'partials/error_msg.html' %}
 
                                 <form role="form" action="{{ request.url_for('login') }}" method="post">
                                     <div class="mb-4">
