@@ -1,5 +1,5 @@
-from pydantic import BaseModel, EmailStr, field_validator
-from typing import Optional, ClassVar
+from pydantic import BaseModel, EmailStr, field_validator, Field
+from typing import Optional
 from models.enums import UserRole
 from models.user import Users
 import re
@@ -8,25 +8,16 @@ class UserCreate(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
-    password: str  # not hashed yet
+    password: str = Field(min_length=8)
     role: UserRole
     is_active: bool
     phone_number: Optional[str] = None
 
-    _db_session: ClassVar = None
-    @field_validator('email')
-    def validate_unique_email(self, v):
-        if self._db_session is None:
-            raise ValueError("DB session not set for schema.")
-        user = self._db_session.query(Users).filter_by(email=v).first()
-        if user:
-            raise ValueError("Email is already in use.")
-        return v
+    db_session: object = Field(default=None, exclude=True)
 
-    @field_validator('password')
-    def validate_password_strength(self, v):
-        if len(v) < 8:
-            raise ValueError("Password must be at least 8 characters long.")
+    @field_validator("password")
+    @classmethod
+    def validate_password_strength(cls, v):
         if not re.search(r"[A-Z]", v):
             raise ValueError("Password must contain at least one uppercase letter.")
         if not re.search(r"[a-z]", v):
@@ -35,6 +26,16 @@ class UserCreate(BaseModel):
             raise ValueError("Password must contain at least one digit.")
         if not re.search(r"[\W_]", v):
             raise ValueError("Password must contain at least one special character.")
+        return v
+
+    @field_validator("email")
+    @classmethod
+    def validate_unique_email(cls, v, values):
+        db = values.get("db_session")
+        if db is None:
+            raise ValueError("DB session not provided for uniqueness check.")
+        if db.query(Users).filter_by(email=v).first():
+            raise ValueError("Email is already in use.")
         return v
 
 class UserUpdate(BaseModel):
