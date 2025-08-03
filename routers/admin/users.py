@@ -19,3 +19,7 @@ async def index(
         service: UserService = Depends(get_service)):
     users = service.get({'query': query, 'page': page})
     return templates.TemplateResponse('users/index.html', {'request': request, 'query': query, 'users': users})
+
+@router.get('/users/create', response_class=HTMLResponse, name='admin.users.create')
+async def create(request: Request):
+    return templates.TemplateResponse('users/create.html', {'request': request})
