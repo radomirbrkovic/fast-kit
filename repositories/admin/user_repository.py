@@ -2,6 +2,7 @@ from models.user import Users
 from repositories.admin.crud_repository import CrudRepository
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from schemas.admin.users import UserCreate
 
 class UserRepository(CrudRepository):
     def __init__(self, db: Session):
@@ -24,3 +25,11 @@ class UserRepository(CrudRepository):
         users = self.paginate(users, filters)
 
         return users.all()
+
+    def create(self, obj_in: UserCreate):
+        user_dict = obj_in.model_dump(exclude={"password"})
+        db_obj = self.model(**user_dict)
+        self.db.add(db_obj)
+        self.db.commit()
+        self.db.refresh(db_obj)
+        return db_obj

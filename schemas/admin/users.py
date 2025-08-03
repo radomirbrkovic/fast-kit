@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr, field_validator, Field
 from typing import Optional
 from models.enums import UserRole
 from models.user import Users
+from infastructure.database import SessionLocal
 import re
 
 class UserCreate(BaseModel):
@@ -10,10 +11,9 @@ class UserCreate(BaseModel):
     last_name: str
     password: str = Field(min_length=8)
     role: UserRole
-    is_active: bool
+    is_active: Optional[bool] = True
     phone_number: Optional[str] = None
-
-    db_session: object = Field(default=None, exclude=True)
+    hashed_password: str | None = Field(default=None, exclude=True)
 
     @field_validator("password")
     @classmethod
@@ -28,10 +28,8 @@ class UserCreate(BaseModel):
             raise ValueError("Password must contain at least one special character.")
         return v
 
-    @field_validator("email")
-    @classmethod
-    def validate_unique_email(cls, v, values):
-        db = values.get("db_session")
+    @staticmethod
+    def validate_unique_email(v, db: SessionLocal):
         if db is None:
             raise ValueError("DB session not provided for uniqueness check.")
         if db.query(Users).filter_by(email=v).first():
