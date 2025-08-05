@@ -6,7 +6,7 @@ from repositories.admin.user_repository import UserRepository
 from services.admin.user_service import UserService
 from sqlalchemy.orm import Session
 from models.enums import UserRole
-from schemas.admin.users import UserCreate
+from schemas.admin.users import UserCreate, UserUpdate
 
 router = guard_router
 
@@ -31,7 +31,7 @@ async  def store(request: Request, db: Session = Depends(get_db), service: UserS
     try:
         form = await request.form()
         form_data = dict(form)
-        user_data = UserCreate(**form_data, db_session=db)
+        user_data = UserCreate(**form_data)
         UserCreate.validate_unique_email(user_data.email, db)
         service.create(user_data)
         return RedirectResponse(url="/admin/users", status_code=302)
@@ -42,3 +42,21 @@ async  def store(request: Request, db: Session = Depends(get_db), service: UserS
 async def create(id: int, request: Request, service: UserService = Depends(get_service)):
     user = service.find(id)
     return templates.TemplateResponse('users/edit.html', {'request': request, 'roles': list(UserRole), 'user': user})
+
+@router.post('/users/{id}', response_class=HTMLResponse, name='admin.users.update')
+async  def store(id: int, request: Request, db: Session = Depends(get_db), service: UserService = Depends(get_service)):
+    try:
+        form = await request.form()
+        form_data = dict(form)
+        user_data = UserUpdate(**form_data)
+        UserUpdate.validate_unique_email(user_data.email, id, db)
+        service.update(id, user_data)
+        return RedirectResponse(url="/admin/users", status_code=302)
+    except ValueError as e:
+        user = service.find(id)
+        return templates.TemplateResponse('users/update.html', {
+            'request': request,
+            'user': user,
+            'roles': list(UserRole),
+            'error_msg': str(e)
+        })
