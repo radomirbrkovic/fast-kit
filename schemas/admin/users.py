@@ -37,13 +37,21 @@ class UserCreate(BaseModel):
         return v
 
 class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    password: Optional[str] = None
-    is_active: Optional[bool] = None
-    role: Optional[UserRole] = None
+    email: EmailStr
+    first_name: str
+    last_name: str
+    role: UserRole
     phone_number: Optional[str] = None
+
+    @staticmethod
+    def validate_unique_email(v, id, db: SessionLocal):
+        if db is None:
+            raise ValueError("DB session not provided for uniqueness check.")
+        if  db.query(Users).filter(Users.email == v, Users.id != id).first():
+            raise ValueError("Email is already in use.")
+        return v
+
+
 
 class UserOut(BaseModel):
     id: int
