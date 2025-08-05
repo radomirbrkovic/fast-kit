@@ -37,3 +37,8 @@ async  def store(request: Request, db: Session = Depends(get_db), service: UserS
         return RedirectResponse(url="/admin/users", status_code=302)
     except ValueError as e:
         return templates.TemplateResponse('users/create.html', {'request': request, 'roles': list(UserRole), 'error_msg': str(e)})
+
+@router.get('/users/{id}/edit', response_class=HTMLResponse, name='admin.users.edit')
+async def create(id: int, request: Request, service: UserService = Depends(get_service)):
+    user = service.find(id)
+    return templates.TemplateResponse('users/edit.html', {'request': request, 'roles': list(UserRole), 'user': user})
