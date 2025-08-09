@@ -1,6 +1,6 @@
 from infastructure.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Enum
-from models.enums import *
+from models.enums import UserRole
 
 class Users(Base):
     __tablename__ = 'users'
