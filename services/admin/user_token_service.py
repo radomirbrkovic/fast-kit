@@ -1,0 +1,26 @@
+from schemas.admin.user_tokens import UserTokenCreate
+from repositories.admin.user_token_repository import UserTokenRepository
+import secrets
+from datetime import datetime, timedelta
+
+class UserTokenService:
+    def __init__(self, repo: UserTokenRepository):
+        self.repo = repo
+
+    def create(self, data: UserTokenCreate):
+        token = secrets.token_urlsafe(32)
+        expires_at = datetime.utcnow() + timedelta(hours=2)
+
+        return self.repo.create({
+            'user_id': data.user_id,
+            'token': token,
+            'type': data.type,
+            'expires_at': expires_at
+        })
+
+    def findByToken(self, token:str):
+        return self.repo.findByToken(token)
+
+
+    def delete(self, id: int):
+        return self.repo.delete(id)
