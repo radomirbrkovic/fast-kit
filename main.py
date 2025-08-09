@@ -18,8 +18,3 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get('/')
 async def welcome():
     return {"message": "Welcome to FastAp, Admin panel developed in FastAPI."}
-
-@app.get('/test')
-async def test():
-    await send("brkovic.radomir+test@gmail.com", "This is test subject", "This is test content")
-    return  {}
