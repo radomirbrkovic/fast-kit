@@ -5,7 +5,6 @@ import os
 from routers.admin.auth import router as admin_auth_router
 from routers.admin.dashboard import router as admin_dashboard_router
 from routers.admin.users import router as admin_users_router
-from utils.email import send
 
 app = FastAPI()
 
