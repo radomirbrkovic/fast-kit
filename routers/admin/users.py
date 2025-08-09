@@ -1,4 +1,4 @@
-from fastapi import Request, Depends
+from fastapi import Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional
 from routers.admin.admin import guard_router, templates, get_db
@@ -60,3 +60,12 @@ async  def store(id: int, request: Request, db: Session = Depends(get_db), servi
             'roles': list(UserRole),
             'error_msg': str(e)
         })
+
+@router.delete('/users/{user_id}', name='admin.users.delete')
+async def delete(user_id: int, request: Request, service: UserService = Depends(get_service)):
+    if user_id != request.session['auth_id']:
+        service.delete(user_id)
+    else:
+        raise HTTPException(status_code=400, detail="User can't be deleted.")
+
+    return {"message": 'User has been successfully deleted.'}
