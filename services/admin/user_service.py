@@ -25,7 +25,10 @@ class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
         result = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8))
         obj_in.hashed_password = bcrypt_context.hash(result)
         user = self.repository.create(obj_in)
-        user_token_data = UserTokenCreate(user_id=user.id, type=UserTokenType.RESET_PASSWORD)
+        self._create_user_token_for_reset_password(user_id=user.id)
+        return user
+
+    def _create_user_token_for_reset_password(self, user_id: int):
+        user_token_data = UserTokenCreate(user_id=user_id, type=UserTokenType.RESET_PASSWORD)
         user_token_service = UserTokenService(UserTokenRepository(self.repository.getDb()))
         user_token_service.create(data=user_token_data)
-        return user
