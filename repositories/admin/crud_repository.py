@@ -9,6 +9,9 @@ class CrudRepository(AbstractRepository):
         self.db = db
         self.model = model
 
+    def getDb(self) -> Session:
+        return self.db
+
     def find(self, id: int):
         return self.db.query(self.model).get(id)
 
