@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from models.user_token import  UserToken
+from models.enums import UserTokenType
 
 class UserTokenRepository:
     def __init__(self, db: Session):
@@ -16,8 +17,8 @@ class UserTokenRepository:
     def find(self, id: int):
         return self.db.query(self.model).get(id)
 
-    def findByToken(self, token: str):
-        return self.db.query(self.model).filter(UserToken.token == token).find()
+    def findByTokenAndType(self, token: str, token_type: UserTokenType):
+        return self.db.query(self.model).filter(UserToken.token == token, UserToken.type == token_type).first()
 
     def delete(self, id: int):
         db_obj = self.find(id)

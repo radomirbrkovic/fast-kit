@@ -1,11 +1,17 @@
-from fastapi import Request, Form
+from fastapi import Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from models.enums import UserRole
-from routers.admin.admin import public_router, templates
+from repositories.admin.user_token_repository import UserTokenRepository
+from routers.admin.admin import public_router, templates, get_db
+from services.admin.user_token_service import UserTokenService
 from services.auth_service import AuthService
+from sqlalchemy.orm import Session
 
 auth_service = AuthService()
 router = public_router
+
+def get_user_token_service(db: Session = Depends(get_db)):
+    return UserTokenService(UserTokenRepository(db))
 
 @router.get('/login', response_class=HTMLResponse)
 async def login(request: Request):
@@ -21,3 +27,9 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
         request.session['auth_id'] = user.id
         request.session['auth_name'] = user.first_name
         return RedirectResponse(url="/admin/dashboard", status_code=302)
+
+
+@router.get('/reset-password/{token}')
+async def reset_password(token: str, request: Request, service: UserTokenService = Depends(get_user_token_service)):
+    user_token = service.getResetPasswordToken(token=token)
+    return user_token

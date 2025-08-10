@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+from models.enums import UserTokenType
 from schemas.admin.user_tokens import UserTokenCreate
 from repositories.admin.user_token_repository import UserTokenRepository
 import secrets
@@ -18,8 +20,15 @@ class UserTokenService:
             'expires_at': expires_at
         })
 
-    def findByToken(self, token:str):
-        return self.repo.findByToken(token)
+    def getResetPasswordToken(self, token:str):
+        user_token = self.repo.findByTokenAndType(token, UserTokenType.RESET_PASSWORD)
+        if not user_token or user_token is None:
+            raise HTTPException(status_code=404, detail="Token doesn't exists in the database.")
+
+        if datetime.utcnow() > user_token.expires_at:
+            raise HTTPException(status_code=404, detail="Token has expired.")
+
+        return user_token
 
 
     def delete(self, id: int):
