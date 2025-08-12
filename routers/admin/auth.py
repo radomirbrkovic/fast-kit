@@ -29,7 +29,12 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
         return RedirectResponse(url="/admin/dashboard", status_code=302)
 
 
-@router.get('/reset-password/{token}')
+@router.get('/reset-password/{token}', response_class=HTMLResponse)
 async def reset_password(token: str, request: Request, service: UserTokenService = Depends(get_user_token_service)):
     user_token = service.getResetPasswordToken(token=token)
-    return user_token
+    return templates.TemplateResponse('auth/reset-password.html', {"request": request, 'user_token': user_token})
+
+@router.post('/reset-password', name='admin.reset-password.store')
+async def reset_password_store(request: Request, service: UserTokenService = Depends(get_user_token_service)):
+    pass
+
