@@ -1,8 +1,12 @@
 from fastapi import Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
+from pydantic import ValidationError
 from models.enums import UserRole
+from repositories.admin.user_repository import UserRepository
 from repositories.admin.user_token_repository import UserTokenRepository
 from routers.admin.admin import public_router, templates, get_db
+from schemas.admin.auth import ResetPasswordSchema
+from services.admin.user_service import UserService
 from services.admin.user_token_service import UserTokenService
 from services.auth_service import AuthService
 from sqlalchemy.orm import Session
@@ -12,6 +16,9 @@ router = public_router
 
 def get_user_token_service(db: Session = Depends(get_db)):
     return UserTokenService(UserTokenRepository(db))
+
+def get_user_tservice(db: Session = Depends(get_db)):
+    return UserService(UserRepository(db))
 
 @router.get('/login', response_class=HTMLResponse)
 async def login(request: Request):
@@ -35,6 +42,25 @@ async def reset_password(token: str, request: Request, service: UserTokenService
     return templates.TemplateResponse('auth/reset-password.html', {"request": request, 'user_token': user_token})
 
 @router.post('/reset-password', name='admin.reset-password.store')
-async def reset_password_store(request: Request, service: UserTokenService = Depends(get_user_token_service)):
-    pass
+async def reset_password_store(request: Request,
+                               token: str = Form(...),
+                               password: str = Form(...),
+                               password_confirm: str = Form(...),
+                               service: UserTokenService = Depends(get_user_token_service),
+                               user_service: UserService = Depends(get_user_tservice),
+                               ):
+    user_token = service.getResetPasswordToken(token=token)
+    try:
+        data = ResetPasswordSchema(
+            password=password,
+            password_confirm=password_confirm
+        )
+        user_service.update_password(user_token.user_id, data.password)
+        return RedirectResponse(url="/admin/login", status_code=302)
+    except ValidationError as e:
+        return templates.TemplateResponse('auth/reset-password.html', {
+            "request": request,
+            "user_token": user_token,
+            "error_msg": str(e)
+        })
 

@@ -33,3 +33,9 @@ class UserRepository(CrudRepository):
         self.db.commit()
         self.db.refresh(db_obj)
         return db_obj
+
+    def update_password(self, id: int, password: str):
+        db_obj = self.db.query(Users).filter(Users.id == id).first()
+        db_obj.hashed_password=password
+        self.db.commit()
+        self.db.refresh(db_obj)
