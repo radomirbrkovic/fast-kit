@@ -15,14 +15,14 @@ def get_user_token_service(db: Session = Depends(get_db)):
 
 @router.get('/login', response_class=HTMLResponse)
 async def login(request: Request):
-    return templates.TemplateResponse('sign-in.html', {"request": request})
+    return templates.TemplateResponse('auth/sign-in.html', {"request": request})
 
 @router.post('/login', response_class=HTMLResponse)
 async def authenticate(request: Request, email: str = Form(), password: str= Form()):
     user = auth_service.authenticate(email, password, UserRole.SUPER_ADMIN)
 
     if user is None:
-        return templates.TemplateResponse('sign-in.html', {"request": request, 'error_msg': "Invalid credentials."})
+        return templates.TemplateResponse('auth/sign-in.html', {"request": request, 'error_msg': "Invalid credentials."})
     else:
         request.session['auth_id'] = user.id
         request.session['auth_name'] = user.first_name
