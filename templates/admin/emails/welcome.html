@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h1>Welcome {{ user.first_name }}</h1>
+You have generated password: <b>{{ password }}</b>
+Or click on the link below to reset it, the link will expire in two hours.
+<a href="{{ url }}">{{ url }}</a>
+</body>
+</html>

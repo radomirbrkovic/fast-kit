@@ -36,7 +36,7 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
         return RedirectResponse(url="/admin/dashboard", status_code=302)
 
 
-@router.get('/reset-password/{token}', response_class=HTMLResponse)
+@router.get('/reset-password/{token}', response_class=HTMLResponse, name='admin.reset-password.form')
 async def reset_password(token: str, request: Request, service: UserTokenService = Depends(get_user_token_service)):
     user_token = service.getResetPasswordToken(token=token)
     return templates.TemplateResponse('auth/reset-password.html', {"request": request, 'user_token': user_token})
