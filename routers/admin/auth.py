@@ -56,6 +56,7 @@ async def reset_password_store(request: Request,
             password_confirm=password_confirm
         )
         user_service.update_password(user_token.user_id, data.password)
+        service.delete(user_token.id)
         return RedirectResponse(url="/admin/login", status_code=302)
     except ValidationError as e:
         return templates.TemplateResponse('auth/reset-password.html', {
