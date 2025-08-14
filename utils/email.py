@@ -11,15 +11,13 @@ EMAIL_USER = os.getenv("EMAIL_USER")
 EMAIL_PASS = os.getenv("EMAIL_PASS")
 EMAIL_FROM = os.getenv("EMAIL_FROM")
 
-async def send(to_email: str, subject: str, body: str, html: str = None):
+async def send(to_email: str, subject: str, body: str):
     message = EmailMessage()
     message["From"] = EMAIL_FROM
     message["To"] = to_email
     message["Subject"] = subject
-    message.set_content(body)
+    message.add_alternative(body, subtype="html")
 
-    if html is not None:
-        message.add_alternative(html)
 
     try:
         await aiosmtplib.send(

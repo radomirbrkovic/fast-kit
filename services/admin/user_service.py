@@ -1,7 +1,4 @@
 from typing import List
-
-from sqlalchemy.util import await_only
-
 from schemas.admin.users import UserCreate, UserUpdate, UserOut
 from schemas.admin.user_tokens import UserTokenCreate, UserTokenType
 from services.admin.base_crud_service import BaseCrudService, ModelType, CreateSchemaType
@@ -15,12 +12,17 @@ from routers.admin.admin import templates
 from starlette.requests import Request
 import secrets
 import string
+import asyncio
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
     def __init__(self, repo: UserRepository):
         super().__init__(repo)
+        self.request = None
+
+    def set_request(self, request: Request):
+        self.request = request
 
     def get(self, filters: dict = None) -> List[ModelType]:
         users = super().get(filters)
@@ -42,12 +44,11 @@ class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
         user_token_service = UserTokenService(UserTokenRepository(self.repository.getDb()))
         return user_token_service.create(data=user_token_data)
 
-    async def _send_welcome_email(self, user, password: str, user_token):
+    def _send_welcome_email(self, user, password: str, user_token):
         template = templates.env.get_template('emails/welcome.html')
-        dummy_request = Request({"type": "http", "path": "/"})
-        await send(user.email, "Welcome", template.render({
-            'request': dummy_request,
+        asyncio.create_task(send(user.email, "Welcome", template.render({
+            'request': self.request,
             'user': user,
             'password': password,
-            'url':  f'http://127.0.0.1:8000/admin/reset-password/{user_token.token}'
-        }))
+            'url':  self.request.url_for('admin.reset-password.form', token=user_token.token)
+        })))

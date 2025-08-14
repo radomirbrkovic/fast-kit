@@ -33,6 +33,7 @@ async  def store(request: Request, db: Session = Depends(get_db), service: UserS
         form_data = dict(form)
         user_data = UserCreate(**form_data)
         UserCreate.validate_unique_email(user_data.email, db)
+        service.set_request(request)
         service.create(user_data)
         return RedirectResponse(url="/admin/users", status_code=302)
     except ValueError as e:
