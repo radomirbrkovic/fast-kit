@@ -1,9 +1,8 @@
-from pydantic import BaseModel, EmailStr, field_validator, Field
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from models.enums import UserRole
 from models.user import Users
 from infastructure.database import SessionLocal
-import re
 
 class UserCreate(BaseModel):
     email: EmailStr
