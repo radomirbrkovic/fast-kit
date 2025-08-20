@@ -15,3 +15,7 @@ def get_service(db: Session = Depends(get_db)):
 async  def index(request: Request, page: Optional[int] = 1, services: PageService = Depends(get_service)):
     pages = services.get({'page': page})
     return templates.TemplateResponse('pages/index.html', {'request': request, 'pages': pages})
+
+@router.get('/pages/create', response_class=HTMLResponse, name='admin.pages.create')
+async def create(request: Request):
+    return templates.TemplateResponse('pages/create.html', {'request': request})
