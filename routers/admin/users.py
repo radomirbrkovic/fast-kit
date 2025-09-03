@@ -40,12 +40,12 @@ async  def store(request: Request, db: Session = Depends(get_db), service: UserS
         return templates.TemplateResponse('users/create.html', {'request': request, 'roles': list(UserRole), 'error_msg': str(e)})
 
 @router.get('/users/{id}/edit', response_class=HTMLResponse, name='admin.users.edit')
-async def create(id: int, request: Request, service: UserService = Depends(get_service)):
+async def edit(id: int, request: Request, service: UserService = Depends(get_service)):
     user = service.find(id)
     return templates.TemplateResponse('users/edit.html', {'request': request, 'roles': list(UserRole), 'user': user})
 
 @router.post('/users/{id}', response_class=HTMLResponse, name='admin.users.update')
-async  def store(id: int, request: Request, db: Session = Depends(get_db), service: UserService = Depends(get_service)):
+async  def update(id: int, request: Request, db: Session = Depends(get_db), service: UserService = Depends(get_service)):
     try:
         form = await request.form()
         form_data = dict(form)
