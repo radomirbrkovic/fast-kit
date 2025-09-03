@@ -52,7 +52,7 @@
                             </a>
 
 
-                            <a href="#" onclick="delete({{ page.id }})" class="inline-block px-3 py-3 mr-3 font-bold text-center uppercase align-middle rounded-lg cursor-pointer text-white bg-[#f5365c] leading-normal text-xs ease-in tracking-tight-rem shadow-md bg-x-25 hover:-translate-y-px active:opacity-85 hover:shadow-md">
+                            <a href="#" onclick="deleteItem({{ page.id }})" class="inline-block px-3 py-3 mr-3 font-bold text-center uppercase align-middle rounded-lg cursor-pointer text-white bg-[#f5365c] leading-normal text-xs ease-in tracking-tight-rem shadow-md bg-x-25 hover:-translate-y-px active:opacity-85 hover:shadow-md">
                                <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </a>
 
@@ -70,7 +70,7 @@
 </div>
 
 <script>
-async function delete(id) {
+async function deleteItem(id) {
     if (!confirm("Are you sure you want to delete this page?")) return;
     const res = await fetch(`/admin/pages/${id}`, { method: "DELETE" });
     if (res.ok) {
