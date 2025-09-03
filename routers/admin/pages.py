@@ -32,3 +32,8 @@ async def store(request: Request, service: PageService = Depends(get_service)):
         return RedirectResponse(url="/admin/pages", status_code=302)
     except ValueError as e:
         return templates.TemplateResponse('pages/create.html', {'request': request, 'error_msg': str(e)})
+
+@router.get('/pages/{id}/edit', response_class=HTMLResponse, name='admin.pages.edit')
+async def edit(id: int, request: Request, service: PageService = Depends(get_service)):
+    page = service.find(id)
+    return templates.TemplateResponse('pages/edit.html', {'request': request, 'page': page})
