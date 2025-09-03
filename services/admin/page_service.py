@@ -12,6 +12,10 @@ class PageService(BaseCrudService[Page, PageCreate, PageUpdate]):
         obj_in.slug = self._get_slug(obj_in.title)
         return self.repository.create(obj_in)
 
+    def update(self, id: int, obj_in: CreateSchemaType) -> ModelType:
+        obj_in.slug = self._get_slug(obj_in.title)
+        return super().update(id, obj_in)
+
     def _get_slug(self, title: str) -> str:
         base_slug = slugify(title)
         slug = base_slug

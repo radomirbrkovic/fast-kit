@@ -19,7 +19,7 @@ class PageCreate(BaseModel):
 class PageUpdate(BaseModel):
     title: str
     content: Optional[str] = None
-    published_at: Optional[date] = None
+    published_at: Optional[Annotated[date, BeforeValidator(parse_date)]] = None
     slug: Optional[str] = None
 
 class PageOut(BaseModel):

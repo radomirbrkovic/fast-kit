@@ -2,7 +2,7 @@ from fastapi import Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Optional
 
-from schemas.admin.pages import PageCreate
+from schemas.admin.pages import PageCreate, PageUpdate
 from services.admin.page_service import PageService
 from repositories.admin.page_repository import PageRepository
 from routers.admin.admin import guard_router, get_db, templates
@@ -37,3 +37,15 @@ async def store(request: Request, service: PageService = Depends(get_service)):
 async def edit(id: int, request: Request, service: PageService = Depends(get_service)):
     page = service.find(id)
     return templates.TemplateResponse('pages/edit.html', {'request': request, 'page': page})
+
+@router.post('/pages/{id}', response_class=HTMLResponse, name='admin.pages.update')
+async def update(id:int, request: Request, service: PageService = Depends(get_service)):
+    try:
+        form = await request.form()
+        form_data = dict(form)
+        page_data = PageUpdate(**form_data)
+        service.update(id, page_data)
+        return RedirectResponse(url="/admin/pages", status_code=302)
+    except ValueError as e:
+        page = service.find(id)
+        return templates.TemplateResponse('pages/edit.html', {'request': request, 'page': page, 'error_msg': str(e)})
