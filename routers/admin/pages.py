@@ -49,3 +49,8 @@ async def update(id:int, request: Request, service: PageService = Depends(get_se
     except ValueError as e:
         page = service.find(id)
         return templates.TemplateResponse('pages/edit.html', {'request': request, 'page': page, 'error_msg': str(e)})
+
+@router.delete('/pages/{id}', name='admin.pages.delete')
+async def delete(id: int, service: PageService = Depends(get_service)):
+    service.delete(id)
+    return {"message": 'Page has been successfully deleted.'}
