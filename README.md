@@ -31,11 +31,15 @@ cd fast-kit
 ```
 
 ### 2. Create environment file
-``` cp .env.example .env ```
+``` 
+cp .env.example .env 
+```
 
 
 ### 3. Start with Docker
-``` docker-compose up --build ```
+``` 
+docker-compose up --build 
+```
 
 ### 4. Create and activate a virtual environment:
 
@@ -51,11 +55,15 @@ pip install -r requirements.txt
 ```
 
 Start the app:
-``` uvicorn app.main:app --reload ```
+```
+ uvicorn app.main:app --reload
+  ```
 
 ### 5. Running seeders 
 
-``` python seeders/users_table_seeder.py ```
+``` 
+python seeders/users_table_seeder.py
+ ```
 
 Open in browser:
 👉 http://localhost:8000
