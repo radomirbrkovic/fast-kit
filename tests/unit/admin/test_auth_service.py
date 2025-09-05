@@ -28,3 +28,12 @@ def test_authenticate_wrong_password(auth_service, monkeypatch):
 
     result = auth_service.authenticate("test@example.com", "badpassword", UserRole.ADMIN)
     assert result is None
+
+def test_authenticate_wrong_role(auth_service, monkeypatch):
+    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.USER)
+    auth_service.model.filter.return_value.first.return_value = user
+
+    monkeypatch.setattr(auth_service, "verify_password", lambda p, h: True)
+
+    result = auth_service.authenticate("test@example.com", "password", UserRole.ADMIN)
+    assert result is None
