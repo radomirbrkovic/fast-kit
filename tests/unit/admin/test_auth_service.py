@@ -71,3 +71,9 @@ def test_user_with_invalid_session(auth_service):
 
     result = auth_service.user(request=request)
     assert result is None
+
+def test_user_without_session(auth_service):
+    request = MagicMock(spec=Request)
+    request.session = {}
+
+    assert auth_service.user(request) is None
