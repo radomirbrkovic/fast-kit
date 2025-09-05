@@ -14,7 +14,7 @@ def auth_service():
     service.model = MagicMock()
     return service
 
-def _get_user(id: int = 1, email: str = "est@example.com", hashed_password: str ="hashed123", role: str =UserRole.ADMIN):
+def _get_user(id: int = 1, email: str = "test@example.com", hashed_password: str ="hashed123", role: str =UserRole.ADMIN):
     return Users(id=id, email=email, hashed_password=hashed_password, role=role)
 
 def test_authenticate_user_not_found(auth_service):
