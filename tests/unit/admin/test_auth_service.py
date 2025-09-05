@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import MagicMock
 from fastapi import Request
 from passlib.context import CryptContext
+from urllib3 import request
 
 from services.auth_service import AuthService
 from models.user import Users
@@ -62,3 +63,11 @@ def test_user_with_valid_session(auth_service):
 
     result = auth_service.user(request)
     assert result == user
+
+def test_user_with_invalid_session(auth_service):
+    auth_service.model.filter.return_value.first.return_value = None
+    request = MagicMock(spec=Request)
+    request.session = {'auth_id': 99}
+
+    result = auth_service.user(request=request)
+    assert result is None
