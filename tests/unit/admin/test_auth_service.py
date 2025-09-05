@@ -16,13 +16,16 @@ def auth_service():
     service.model = MagicMock()
     return service
 
+def _get_user(id: int = 1, email: str = "est@example.com", hashed_password: str ="hashed123", role: str =UserRole.ADMIN):
+    return Users(id=id, email=email, hashed_password=hashed_password, role=role)
+
 def test_authenticate_user_not_found(auth_service):
     auth_service.model.filter.return_value.first.return_value = None
     result = auth_service.authenticate("unknown@example.com", "password", UserRole.ADMIN)
     assert result is None
 
 def test_authenticate_wrong_password(auth_service, monkeypatch):
-    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.ADMIN)
+    user = _get_user()
     auth_service.model.filter.return_value.first.return_value = user
 
     monkeypatch.setattr(auth_service, "verify_password", lambda p, h: False)
@@ -31,7 +34,7 @@ def test_authenticate_wrong_password(auth_service, monkeypatch):
     assert result is None
 
 def test_authenticate_wrong_role(auth_service, monkeypatch):
-    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.USER)
+    user = _get_user(role=UserRole.USER)
     auth_service.model.filter.return_value.first.return_value = user
 
     monkeypatch.setattr(auth_service, "verify_password", lambda p, h: True)
@@ -40,13 +43,8 @@ def test_authenticate_wrong_role(auth_service, monkeypatch):
     assert result is None
 
 def test_authenticate_success(auth_service, monkeypatch):
-    # Mock user object
-    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.ADMIN)
-
-    # Mock DB query
+    user = _get_user()
     auth_service.model.filter.return_value.first.return_value = user
-
-    # Patch password verification to always return True
     monkeypatch.setattr(auth_service, "verify_password", lambda p, h: True)
 
     result = auth_service.authenticate("test@example.com", "password", UserRole.ADMIN)
@@ -55,7 +53,7 @@ def test_authenticate_success(auth_service, monkeypatch):
     auth_service.model.filter.assert_called_once()
 
 def test_user_with_valid_session(auth_service):
-    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.SUPER_ADMIN)
+    user = _get_user(role=UserRole.SUPER_ADMIN)
     auth_service.model.filter.return_value.first.return_value = user
 
     request = MagicMock(spec=Request)
