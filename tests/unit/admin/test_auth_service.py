@@ -1,8 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
 from fastapi import Request
-from passlib.context import CryptContext
-from urllib3 import request
 
 from services.auth_service import AuthService
 from models.user import Users
