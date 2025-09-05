@@ -52,3 +52,13 @@ def test_authenticate_success(auth_service, monkeypatch):
 
     assert result == user
     auth_service.model.filter.assert_called_once()
+
+def test_user_with_valid_session(auth_service):
+    user = Users(id=1, email="test@example.com", hashed_password="hashed123", role=UserRole.SUPER_ADMIN)
+    auth_service.model.filter.return_value.first.return_value = user
+
+    request = MagicMock(spec=Request)
+    request.session = {"auth_id": 1}
+
+    result = auth_service.user(request)
+    assert result == user
