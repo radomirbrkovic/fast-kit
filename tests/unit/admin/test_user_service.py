@@ -104,3 +104,16 @@ def test_update_user(service, mock_repo):
     assert result.email == data.email
     assert result.first_name == data.first_name
     assert result.role == data.role
+
+def test_update_password(service, mock_repo):
+    user_id = 1
+    password = "test123"
+    hashed_password = "hashTest123"
+
+    with patch("services.admin.user_service.bcrypt_context.hash", return_value=hashed_password) as mock_hash:
+        # Act
+        service.update_password(user_id, password)
+
+        # Assert
+        mock_hash.assert_called_once_with(password)
+        mock_repo.update_password.assert_called_once_with(user_id, hashed_password)
