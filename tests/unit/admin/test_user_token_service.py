@@ -63,3 +63,10 @@ def test_get_reset_password_token_expired(service, mock_repo):
 
     assert exc.value.status_code == 404
     assert "expired" in exc.value.detail
+
+def test_delete_user_token(service, mock_repo):
+    mock_repo.delete.return_value = True
+    result = service.delete(1)
+
+    mock_repo.delete.assert_called_once_with(1)
+    assert result is True
