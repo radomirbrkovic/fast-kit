@@ -3,7 +3,7 @@ from models.enums import UserTokenType
 from schemas.admin.user_tokens import UserTokenCreate
 from repositories.admin.user_token_repository import UserTokenRepository
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 
 class UserTokenService:
     def __init__(self, repo: UserTokenRepository):
@@ -11,7 +11,7 @@ class UserTokenService:
 
     def create(self, data: UserTokenCreate):
         token = secrets.token_urlsafe(32)
-        expires_at = datetime.utcnow() + timedelta(hours=2)
+        expires_at = datetime.now(UTC) + timedelta(hours=2)
 
         return self.repo.create({
             'user_id': data.user_id,
@@ -25,7 +25,7 @@ class UserTokenService:
         if not user_token or user_token is None:
             raise HTTPException(status_code=404, detail="Token doesn't exists in the database.")
 
-        if datetime.utcnow() > user_token.expires_at:
+        if datetime.now(UTC) > user_token.expires_at:
             raise HTTPException(status_code=404, detail="Token has expired.")
 
         return user_token
