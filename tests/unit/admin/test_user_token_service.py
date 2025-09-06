@@ -52,3 +52,14 @@ def test_get_reset_password_not_found(service, mock_repo):
 
     assert exc.value.status_code == 404
     assert "doesn't exists" in exc.value.detail
+
+def test_get_reset_password_token_expired(service, mock_repo):
+    expired_token = MagicMock()
+    expired_token.expires_at = datetime.now(UTC) - timedelta(hours=1)
+    mock_repo.findByTokenAndType.return_value = expired_token
+
+    with pytest.raises(HTTPException) as exc:
+        service.getResetPasswordToken("expired")
+
+    assert exc.value.status_code == 404
+    assert "expired" in exc.value.detail
