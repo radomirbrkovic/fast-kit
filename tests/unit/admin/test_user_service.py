@@ -111,9 +111,18 @@ def test_update_password(service, mock_repo):
     hashed_password = "hashTest123"
 
     with patch("services.admin.user_service.bcrypt_context.hash", return_value=hashed_password) as mock_hash:
-        # Act
         service.update_password(user_id, password)
 
-        # Assert
         mock_hash.assert_called_once_with(password)
         mock_repo.update_password.assert_called_once_with(user_id, hashed_password)
+
+
+def test_delete_user_success(service, mock_repo):
+
+    user_id = 1
+    mock_repo.delete.return_value = None
+
+    result = service.delete(user_id)
+
+    mock_repo.delete.assert_called_once_with(user_id)
+    assert result is None
