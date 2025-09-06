@@ -1,10 +1,12 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from datetime import datetime, UTC
+from datetime import datetime, UTC, timedelta
 
 from services.admin.user_token_service import UserTokenService
 from schemas.admin.user_tokens import UserTokenCreate
 from models.enums import UserTokenType
+
+TOKEN = "token123"
 
 @pytest.fixture
 def mock_repo():
@@ -16,7 +18,7 @@ def service(mock_repo):
 
 def test_create_user_token(service, mock_repo):
     data = UserTokenCreate(user_id=1, type=UserTokenType.RESET_PASSWORD)
-    mock_repo.create.return_value = {"id": 1, "user_id": 1, "token": "token123", "type": UserTokenType.RESET_PASSWORD}
+    mock_repo.create.return_value = {"id": 1, "user_id": 1, "token": TOKEN, "type": UserTokenType.RESET_PASSWORD}
 
     with patch("services.admin.user_token_service.secrets.token_urlsafe", return_value="securetoken"):
         result = service.create(data)
@@ -30,3 +32,13 @@ def test_create_user_token(service, mock_repo):
     assert created_data["type"] == UserTokenType.RESET_PASSWORD
     assert created_data["expires_at"] > datetime.now(UTC)
     assert result == mock_repo.create.return_value
+
+def test_get_reset_password_token_success(service, mock_repo):
+    token = MagicMock()
+    token.expires_at = datetime.now(UTC) + timedelta(hours=1)
+    mock_repo.findByTokenAndType.return_value = token
+
+    result = service.getResetPasswordToken(TOKEN)
+
+    mock_repo.findByTokenAndType.assert_called_once_with(TOKEN, UserTokenType.RESET_PASSWORD)
+    assert result == token
