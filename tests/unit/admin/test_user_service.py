@@ -126,3 +126,14 @@ def test_delete_user_success(service, mock_repo):
 
     mock_repo.delete.assert_called_once_with(user_id)
     assert result is None
+
+def test_delete_user_not_found(service, mock_repo):
+    # Arrange
+    user_id = 999
+    mock_repo.delete.side_effect = ValueError("User not found")
+
+    # Act & Assert
+    with pytest.raises(ValueError, match="User not found"):
+        service.delete(user_id)
+
+    mock_repo.delete.assert_called_once_with(user_id)
