@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import pytest
 from unittest.mock import MagicMock, patch
 from datetime import datetime, UTC, timedelta
@@ -42,3 +43,12 @@ def test_get_reset_password_token_success(service, mock_repo):
 
     mock_repo.findByTokenAndType.assert_called_once_with(TOKEN, UserTokenType.RESET_PASSWORD)
     assert result == token
+
+def test_get_reset_password_not_found(service, mock_repo):
+    mock_repo.findByTokenAndType.return_value = None
+
+    with pytest.raises(HTTPException) as exc:
+        service.getResetPasswordToken("invalid")
+
+    assert exc.value.status_code == 404
+    assert "doesn't exists" in exc.value.detail
