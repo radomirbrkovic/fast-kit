@@ -79,3 +79,28 @@ def test_create_user(mock_templates, mock_send, mock_token_service, mock_create_
     mock_send.assert_called_once_with(
         "new@example.com", "Welcome", "html-content"
     )
+
+def test_update_user(service, mock_repo):
+    user_id = 1
+    data = UserUpdate(
+        first_name= "John",
+        last_name= "Doe",
+        email = "john.doe@example.com",
+        role= UserRole.USER
+    )
+
+    user = MagicMock()
+    user.id = user_id
+    user.email = data.email
+    user.first_name = data.first_name
+    user.last_name =data.last_name
+    user.role = data.role
+
+    mock_repo.update.return_value = user
+
+    result = service.update(user_id, data)
+
+    mock_repo.update.assert_called_once_with(user_id, data)
+    assert result.email == data.email
+    assert result.first_name == data.first_name
+    assert result.role == data.role
