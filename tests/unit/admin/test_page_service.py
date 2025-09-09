@@ -56,3 +56,12 @@ def test_find_page(service, mock_repo):
 
     mock_repo.find.assert_called_once_with(1)
     assert result == page
+
+def test_get_pages(service, mock_repo):
+    pages = [_get_page()]
+    mock_repo.get.return_value = pages
+
+    result = service.get()
+
+    mock_repo.get.assert_called_once_with(None)
+    assert result == pages
