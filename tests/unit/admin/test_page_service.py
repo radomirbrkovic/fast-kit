@@ -65,3 +65,11 @@ def test_get_pages(service, mock_repo):
 
     mock_repo.get.assert_called_once_with(None)
     assert result == pages
+
+def test_delete_page(service, mock_repo):
+    mock_repo.delete.return_value = None
+
+    result = service.delete(1)
+
+    mock_repo.delete.assert_called_once_with(1)
+    assert result is None
