@@ -41,3 +41,9 @@ def test_update_page_regenerates_slug(service, mock_repo):
     mock_repo.is_slug_exists.assert_called_once_with("title-updated")
     mock_repo.update.assert_called_once_with(1, page_data)
     assert result == page
+
+def test_get_slug_handles_duplicates(service, mock_repo):
+    mock_repo.is_slug_exists.side_effect = [True, True, False]
+    slug = service._get_slug("My Page")
+
+    assert slug == "my-page-2"
