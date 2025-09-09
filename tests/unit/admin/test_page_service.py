@@ -47,3 +47,12 @@ def test_get_slug_handles_duplicates(service, mock_repo):
     slug = service._get_slug("My Page")
 
     assert slug == "my-page-2"
+
+def test_find_page(service, mock_repo):
+    page = _get_page()
+    mock_repo.find.return_value = page
+
+    result = service.find(1)
+
+    mock_repo.find.assert_called_once_with(1)
+    assert result == page
