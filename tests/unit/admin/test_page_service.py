@@ -28,3 +28,16 @@ def test_create_page_generates_slug_and_saves(service, mock_repo):
     mock_repo.is_slug_exists.assert_called_once_with("title")
     mock_repo.create.assert_called_once_with(page_data)
     assert result == page
+
+def test_update_page_regenerates_slug(service, mock_repo):
+    page_data =  PageUpdate(title="Title Updated", content="Content Updated")
+    page = _get_page(title="Title Updated", content="Content Updated", slug="title-updated")
+    mock_repo.is_slug_exists.return_value = False
+    mock_repo.update.return_value = page
+
+    result = service.update(1, page_data)
+
+    assert page_data.slug == "title-updated"
+    mock_repo.is_slug_exists.assert_called_once_with("title-updated")
+    mock_repo.update.assert_called_once_with(1, page_data)
+    assert result == page
