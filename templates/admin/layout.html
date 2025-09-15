@@ -62,13 +62,17 @@
 
             <!-- Main Content Area -->
             <main class="col-md-9 ms-sm-auto col-lg-10 main-content p-4">
-                <h1 class="h2 mb-4">{{ title }}</h1>
+            <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card p-4">
+                            <div class="card-body">
 
-                <div class="row g-4">
-                   {% block content %}
-                    {% endblock %}
+                                   {% block content %}
+                                   {% endblock %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </main>
         </div>
     </div>

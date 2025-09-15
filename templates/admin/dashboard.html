@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
 {% set title = "Dashboard" %}
 {% block content %}
-<div class="flex-none w-full max-w-full px-3">
-    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-        <h3>Hi {{ request.session['auth_name'] }}, welcome to {{ request.state.app_name }}</h3>
+    <h2 class="card-title">{{ title }}</h2>
+    <div class="card-text">
+        Hi {{ request.session['auth_name'] }}, welcome to {{ request.state.app_name }}
     </div>
-</div>
 {% endblock %}
