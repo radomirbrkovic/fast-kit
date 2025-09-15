@@ -1,5 +1,5 @@
    {% if error_msg is defined and error_msg is not none %}
-                                <div alert class="relative p-4 pr-12 mb-4 text-white border border-red-300 border-solid rounded-lg bg-gradient-to-tl from-red-600 to-orange-600">
-                                        {{ error_msg }}
-                                </div>
-                                {% endif %}
+    <div class="alert alert-danger" role="alert">
+          {{ error_msg }}
+    </div>
+   {% endif %}
