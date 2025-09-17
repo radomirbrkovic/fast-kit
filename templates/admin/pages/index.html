@@ -1,74 +1,41 @@
 {% extends 'layout.html' %}
 {% set title = "Pages" %}
 {% block content %}
-<div class="flex-none w-full max-w-full px-3">
-    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
-        <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-            <div class="flex items-center gap-2">
-
-                  <a href="{{ url_for('admin.pages.create') }}" class="inline-block px-8 py-2 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85">
-                    Add
-                </a>
-            </div>
-        </div>
-        <div class="flex-auto px-0 pt-0 pb-2">
-            <div class="p-0 overflow-x-auto">
-                {% if pages|length > 0 %}
-                <table class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
-                    <thead class="align-bottom">
-                    <tr>
-                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                            Title
-                        </th>
-                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                            Published at
-                        </th>
-                        <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for page in pages %}
-
-                    <tr>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                            <div class="flex px-2 py-1">
-                                <div class="flex flex-col justify-center">
-                                    <h6 class="mb-0 text-sm leading-normal dark:text-white">{{ page.title }}</h6>
-                                    <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                        {{ page.slug }}</p>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                            <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                    {{ page.published_at.strftime("%m/%d/%Y") if page.published_at else ""  }}
-                            </span>
-                        </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-
-                            <a href="{{ url_for('admin.pages.edit', id=page.id) }}" class="inline-block px-3 py-3 mr-3 font-bold text-center uppercase align-middle rounded-lg cursor-pointer bg-[#d4d4d8] leading-normal text-xs ease-in tracking-tight-rem shadow-md bg-x-25 hover:-translate-y-px active:opacity-85 hover:shadow-md">
-                               <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-
-
-                            <a href="#" onclick="deleteItem({{ page.id }})" class="inline-block px-3 py-3 mr-3 font-bold text-center uppercase align-middle rounded-lg cursor-pointer text-white bg-[#f5365c] leading-normal text-xs ease-in tracking-tight-rem shadow-md bg-x-25 hover:-translate-y-px active:opacity-85 hover:shadow-md">
-                               <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <h6 class="mb-1 mt-1 p-2 text-sm leading-normal dark:text-white">No items can be found.</h6>
-                {% endif %}
-            </div>
-        </div>
+<h2 class="card-title">{{ title }}</h2>
+<div class="row">
+    <div class="col-12">
+         <a href="{{ url_for('admin.pages.create') }}" class="btn btn-secondary rounded-3 float-end">Add</a>
     </div>
 </div>
-
+{% if pages|length > 0 %}
+    <table class="table">
+    <thead>
+        <th class="col">Title</th>
+        <th class="col">Slug</th>
+        <th class="col">Published at</th>
+        <th class="col">Actions</th>
+    </thead>
+     <tbody>
+     {% for page in pages %}
+        <tr>
+            <td>{{ page.title }}</td>
+            <td>{{ page.slug }}</td>
+            <td> {{ page.published_at.strftime("%m/%d/%Y") if page.published_at else ""  }}</td>
+            <td>
+                   <a class="btn btn-light" href="{{ url_for('admin.pages.edit', id=page.id) }}" >
+                     <i class="fa fa-pencil" aria-hidden="true"></i>
+                   </a>
+                     <a href="#" onclick="deleteItem({{ page.id }})" class="btn btn-danger">
+                       <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+            </td>
+        </tr>
+     {% endfor %}
+     </tbody>
+</table>
+{% else %}
+  <p class="mb-1 mt-1 p-2 ">No items can be found.</p>
+{% endif %}
 <script>
 async function deleteItem(id) {
     if (!confirm("Are you sure you want to delete this page?")) return;
