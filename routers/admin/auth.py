@@ -35,6 +35,10 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
         request.session['auth_name'] = user.first_name
         return RedirectResponse(url="/admin/dashboard", status_code=302)
 
+@router.get('/forgot-password', response_class=HTMLResponse, name='admin.forgot-password.form')
+async def forgot_password(request: Request):
+    return templates.TemplateResponse('auth/forgot-password.html', {'request': request})
+
 
 @router.get('/reset-password/{token}', response_class=HTMLResponse, name='admin.reset-password.form')
 async def reset_password(token: str, request: Request, service: UserTokenService = Depends(get_user_token_service)):
