@@ -39,6 +39,20 @@ async def authenticate(request: Request, email: str = Form(), password: str= For
 async def forgot_password(request: Request):
     return templates.TemplateResponse('auth/forgot-password.html', {'request': request})
 
+@router.post('/forgot-password', response_class=HTMLResponse, name='admin.forgot-password.store')
+async def forgot_password_store(request: Request, email: str = Form()):
+    if auth_service.reset_password(email, request) :
+        return templates.TemplateResponse('auth/forgot-password.html', {
+            'request': request,
+            'error_msg': "Please check your inbox, we have sent you reset password email.",
+            'error_class': 'alert-success'
+        })
+    else:
+        return templates.TemplateResponse('auth/forgot-password.html', {
+            'request': request,
+            'error_msg': "We can't find user with provided email."
+        })
+
 
 @router.get('/reset-password/{token}', response_class=HTMLResponse, name='admin.reset-password.form')
 async def reset_password(token: str, request: Request, service: UserTokenService = Depends(get_user_token_service)):
