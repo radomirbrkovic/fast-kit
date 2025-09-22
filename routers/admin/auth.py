@@ -22,6 +22,8 @@ def get_user_tservice(db: Session = Depends(get_db)):
 
 @router.get('/login', response_class=HTMLResponse)
 async def login(request: Request):
+    if auth_service.user(request):
+        return RedirectResponse(url="/admin/dashboard", status_code=302)
     return templates.TemplateResponse('auth/sign-in.html', {"request": request})
 
 @router.post('/login', response_class=HTMLResponse)
