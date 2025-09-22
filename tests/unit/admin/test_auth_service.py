@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from fastapi import Request
 
 from services.auth_service import AuthService
@@ -82,3 +82,24 @@ def test_reset_password_user_not_found(auth_service):
 
     assert result is False
     auth_service.model.filter.assert_called_once()
+
+@patch("services.auth_service.UserTokenService")
+def test_reset_password_success(mock_user_token_service_cls, auth_service):
+    user = _get_user()
+    auth_service.model.filter.return_value.first.return_value = user
+    request = MagicMock(spec=Request)
+
+    mock_user_token_service = MagicMock()
+    mock_user_token_service.create.return_value = MagicMock(id=123)
+    mock_user_token_service_cls.return_value = mock_user_token_service
+
+    auth_service._send_reset_password_email = MagicMock()
+
+    result = auth_service.reset_password("test@example.com", request)
+
+    assert result is True
+    mock_user_token_service_cls.assert_called_once()  # service created
+    mock_user_token_service.create.assert_called_once()
+    auth_service._send_reset_password_email.assert_called_once_with(
+        user, mock_user_token_service.create.return_value, request
+    )
