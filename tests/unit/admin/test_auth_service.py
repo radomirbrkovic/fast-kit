@@ -73,3 +73,12 @@ def test_user_without_session(auth_service):
     request.session = {}
 
     assert auth_service.user(request) is None
+
+def test_reset_password_user_not_found(auth_service):
+    auth_service.model.filter.return_value.first.return_value = None
+    request = MagicMock(spec=Request)
+
+    result = auth_service.reset_password("notfound@example.com", request)
+
+    assert result is False
+    auth_service.model.filter.assert_called_once()
