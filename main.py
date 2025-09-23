@@ -7,6 +7,7 @@ from routers.admin.dashboard import router as admin_dashboard_router
 from routers.admin.users import router as admin_users_router
 from routers.admin.pages import router as admin_pages_router
 from middlewares.admin_middleware import GlobalContextMiddleware
+from utils.tranaslations import TranslationManager
 
 app = FastAPI()
 
@@ -18,6 +19,8 @@ app.include_router(admin_users_router)
 app.include_router(admin_pages_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+translation_manager = TranslationManager()
+
 @app.get('/')
 async def welcome():
-    return {"message": ""}
+    return {"message": translation_manager.gettext('welcome_message')}
