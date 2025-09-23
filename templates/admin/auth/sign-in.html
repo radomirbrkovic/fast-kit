@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in - {{ request.state.app_name }}</title>
+    <title>{{ gettext('sign_in') }} - {{ request.state.app_name }}</title>
     <link href="{{ url_for('static', path='assets/css/bootstrap.min.css') }}" rel="stylesheet">
      <link href="{{ url_for('static', path='assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
     <link href="{{ url_for('static', path='assets/css/style.css') }}" rel="stylesheet"/>
@@ -14,7 +14,7 @@
                     <div class="col-6">
                         <div class="card p-4">
                             <div class="card-body">
-                                <h3 class="card-title">Sign in - {{ request.state.app_name }}</h3>
+                                <h3 class="card-title">{{ gettext('sign_in') }} - {{ request.state.app_name }}</h3>
                                  {% include 'partials/error_msg.html' %}
                                  <form role="form" action="{{ request.url_for('login') }}" method="post">
                                     <div class="mb-3">
@@ -31,7 +31,7 @@
                                                  <a href="{{ url_for('admin.forgot-password.form') }}">Forgot password?</a>
                                              </div>
                                              <div class="col-6 d-flex justify-content-end">
-                                                 <button type="submit" class="btn btn-primary rounded-3">Sign in</button>
+                                                 <button type="submit" class="btn btn-primary rounded-3">{{ gettext('sign_in') }}</button>
                                              </div>
                                          </div>
                                      </div>
