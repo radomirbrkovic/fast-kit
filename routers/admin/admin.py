@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.templating import Jinja2Templates
 from middlewares.admin_middleware import auth
 from infastructure.database import SessionLocal
+from utils.tranaslations import TranslationManager
 
 public_router = APIRouter(
     prefix='/admin',
@@ -17,6 +18,9 @@ guard_router = APIRouter(
 )
 
 templates = Jinja2Templates(directory='templates/admin')
+
+translation_manager = TranslationManager()
+templates.env.globals['gettext'] = translation_manager.gettext
 
 def get_db():
     db = SessionLocal()
