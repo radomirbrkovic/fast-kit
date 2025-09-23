@@ -20,4 +20,4 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get('/')
 async def welcome():
-    return {"message": "Welcome to FastKit, Admin panel developed in FastAPI."}
+    return {"message": ""}
