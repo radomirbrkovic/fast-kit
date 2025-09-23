@@ -13,7 +13,7 @@ class TranslationManager:
         translations = {}
 
         for file in self.translations_dir.glob('*.json'):
-            lang_code = file.sram
+            lang_code = file.stem
             with open(file, 'r', encoding='utf-8') as f:
                 translations[lang_code] = json.load(f)
 
