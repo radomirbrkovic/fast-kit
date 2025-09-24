@@ -4,7 +4,9 @@
     "sign_in": "Sign in",
     "email": "Email address",
     "password": "Password",
-    "forgot_password": "Forgot password?"
+    "forgot_password": "Forgot password?",
+    "forgot_password_title": "Forgot password",
+    "submit": "Submit"
   }
 
 }
