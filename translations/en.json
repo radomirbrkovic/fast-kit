@@ -1,7 +1,10 @@
 {
   "welcome_message": "Welcome to FastKit, Admin panel developed in FastAPI.",
   "admin": {
-    "sign_in": "Sign in"
+    "sign_in": "Sign in",
+    "email": "Email address",
+    "password": "Password",
+    "forgot_password": "Forgot password?"
   }
 
 }

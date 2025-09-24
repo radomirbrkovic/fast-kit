@@ -18,17 +18,17 @@
                                  {% include 'partials/error_msg.html' %}
                                  <form role="form" action="{{ request.url_for('login') }}" method="post">
                                     <div class="mb-3">
-                                            <label for="email" class="form-label">Email address</label>
+                                            <label for="email" class="form-label">{{ gettext('admin.email') }}</label>
                                             <input type="email" name="email" class="form-control" id="email">
                                     </div>
                                      <div class="mb-3">
-                                            <label for="password" class="form-label">Password</label>
+                                            <label for="password" class="form-label">{{ gettext('admin.password') }}</label>
                                             <input type="password" name="password" class="form-control" id="password">
                                     </div>
                                      <div class="mb-3">
                                          <div class="row">
                                              <div class="col-6">
-                                                 <a href="{{ url_for('admin.forgot-password.form') }}">Forgot password?</a>
+                                                 <a href="{{ url_for('admin.forgot-password.form') }}">{{ gettext('admin.forgot_password') }}</a>
                                              </div>
                                              <div class="col-6 d-flex justify-content-end">
                                                  <button type="submit" class="btn btn-primary rounded-3">{{ gettext('admin.sign_in') }}</button>
