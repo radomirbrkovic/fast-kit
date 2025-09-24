@@ -23,4 +23,16 @@ class TranslationManager:
         if lang is None:
             lang = os.getenv("LANGUAGE")
         lang_data = self.translations.get(lang, self.translations.get("en", {}))
-        return lang_data.get(key, key)
+        current_data = lang_data
+        keys = key.split('.')
+
+        for part in keys:
+            if isinstance(current_data, dict) and part in current_data:
+                current_data = current_data[part]
+            else:
+                return key
+
+        if isinstance(current_data, str):
+            return current_data
+        else:
+            return key
