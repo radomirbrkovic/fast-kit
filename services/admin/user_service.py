@@ -7,7 +7,7 @@ from repositories.admin.user_repository import UserRepository
 from repositories.admin.user_token_repository import UserTokenRepository
 from models.user import Users
 from passlib.context import CryptContext
-from utils.email import send
+from infastructure.email import send
 from routers.admin.admin import templates
 from starlette.requests import Request
 import secrets

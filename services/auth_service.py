@@ -10,7 +10,7 @@ from repositories.admin.user_token_repository import UserTokenRepository
 from schemas.admin.user_tokens import UserTokenCreate
 from services.admin.user_token_service import UserTokenService
 from routers.admin.admin import templates
-from utils.email import send
+from infastructure.email import send
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
