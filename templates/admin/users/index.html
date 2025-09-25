@@ -1,27 +1,27 @@
 {% extends 'layout.html' %}
-{% set title = "Users" %}
+{% set title = gettext('admin.users.title') %}
 {% block content %}
 <h2 class="card-title">{{ title }}</h2>
 <form method="get" action="{{ url_for('admin.users.index') }}" class="row">
     <div class="col-6">
         <div class="input-group mb-3">
             <span class="input-group-text" id="query-search"><i class="fa fa-search" aria-hidden="true"></i></span>
-            <input type="text" class="form-control"  name="query" value="{{ query }}" onchange="this.form.submit()"  placeholder="Type here..." aria-describedby="query-search">
+            <input type="text" class="form-control"  name="query" value="{{ query }}" onchange="this.form.submit()"  placeholder="{{ gettext('admin.users.search') }}" aria-describedby="query-search">
         </div>
     </div>
     <div class="col-6 ">
-        <a href="{{ url_for('admin.users.create') }}" class="btn btn-secondary rounded-3 float-end">Add</a>
+        <a href="{{ url_for('admin.users.create') }}" class="btn btn-secondary rounded-3 float-end">{{ gettext('admin.add') }}</a>
     </div>
 </form>
 {% if users|length > 0 %}
 <table class="table">
 <thead>
-    <th class="col">User</th>
-    <th class="col">Email</th>
-    <th class="col">Role</th>
-    <th class="col">Phone</th>
-    <th class="col">Status</th>
-    <th class="col">Actions</th>
+    <th class="col">{{ gettext('admin.users.user') }}</th>
+    <th class="col">{{ gettext('admin.users.email') }}</th>
+    <th class="col">{{ gettext('admin.users.role') }}</th>
+    <th class="col">{{ gettext('admin.users.phone') }}</th>
+    <th class="col">{{ gettext('admin.users.status') }}</th>
+    <th class="col">{{ gettext('admin.actions') }}</th>
 </thead>
  <tbody>
     {% for user in users%}
@@ -46,12 +46,12 @@
  </tbody>
 </table>
  {% else %}
-                <p class="mb-1 mt-1 p-2 ">No items can be found.</p>
+                <p class="mb-1 mt-1 p-2 ">{{ gettext('admin.no_items_found') }}</p>
 {% endif %}
 
 <script>
 async function deleteUser(id) {
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!confirm("{{ gettext('admin.users.delete_confirmation') }}")) return;
     const res = await fetch(`/admin/users/${id}`, { method: "DELETE" });
     if (res.ok) {
         location.reload();

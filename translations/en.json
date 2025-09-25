@@ -16,6 +16,19 @@
       "dashboard": "Dashboard",
       "users": "Users",
       "pages": "Pages"
+    },
+    "add": "Add",
+    "actions": "Actions",
+    "no_items_found": "No items can be found.",
+    "users": {
+      "title": "Users",
+      "search": "Type here...",
+      "user": "User",
+      "email": "Email",
+      "role": "Role",
+      "phone": "Phone",
+      "status": "Status",
+      "delete_confirmation": "Are you sure you want to delete this user?"
     }
   }
 
