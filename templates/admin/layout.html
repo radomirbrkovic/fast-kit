@@ -14,19 +14,19 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand text-dark fw-bold" href="#">{{ request.state.app_name }}</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Profile
+                            <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> {{ gettext('admin.menu.profile') }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('admin.users.edit', id=request.session['auth_id']) }}">Settings</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin.users.edit', id=request.session['auth_id']) }}"> {{ gettext('admin.menu.settings') }}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('admin.auth.logout') }}">Sign Out</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin.auth.logout') }}"> {{ gettext('admin.menu.sing_out') }}</a></li>
                         </ul>
                     </li>
                 </ul>

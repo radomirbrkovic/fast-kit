@@ -8,7 +8,12 @@
     "reset_password": "Reset password",
     "forgot_password": "Forgot password?",
     "forgot_password_title": "Forgot password",
-    "submit": "Submit"
+    "submit": "Submit",
+    "menu": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "sing_out": "Sing out"
+    }
   }
 
 }
