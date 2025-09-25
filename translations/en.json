@@ -12,7 +12,10 @@
     "menu": {
       "profile": "Profile",
       "settings": "Settings",
-      "sing_out": "Sing out"
+      "sing_out": "Sing out",
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "pages": "Pages"
     }
   }
 
