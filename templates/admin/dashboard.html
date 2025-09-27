@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
-{% set title = "Dashboard" %}
+{% set title = gettext('admin.dashboard.title') %}
 {% block content %}
     <h2 class="card-title">{{ title }}</h2>
     <div class="card-text">
-        Hi {{ request.session['auth_name'] }}, welcome to {{ request.state.app_name }}
+        {{ gettext('admin.dashboard.message', {'user': request.session['auth_name'], 'platform': request.state.app_name}) }}
     </div>
 {% endblock %}
