@@ -41,8 +41,10 @@
       "index_title": "Pages",
       "title": "Title",
       "slug": "Slug",
+      "content": "Content",
       "published_at": "Published at",
-      "delete_confirmation": "Are you sure you want to delete this page?"
+      "delete_confirmation": "Are you sure you want to delete this page?",
+      "create_title": "Create page"
     }
   }
 

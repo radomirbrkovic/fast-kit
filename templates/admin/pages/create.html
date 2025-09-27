@@ -1,29 +1,29 @@
 {% extends 'layout.html' %}
-{% set title = "Create page" %}
+{% set title = gettext('admin.pages.create_title')%}
 {% block content %}
  <h2 class="card-title">{{ title }}</h2>
 {% include 'partials/error_msg.html' %}
 <form method="post" id="form" action="{{ url_for('admin.pages.store') }}" class="row">
       <div class="col-12">
-          <a href="{{ url_for('admin.pages.index') }}" class="btn btn-light ms-2 rounded-3 float-end">Back</a>
-          <button type="submit" class="btn btn-primary rounded-3 float-end">Save</button>
+          <a href="{{ url_for('admin.pages.index') }}" class="btn btn-light ms-2 rounded-3 float-end">{{ gettext('admin.back') }}</a>
+          <button type="submit" class="btn btn-primary rounded-3 float-end">{{ gettext('admin.save') }}</button>
       </div>
     <div class="col-6">
          <div class="form-group">
-                <label for="title" class="form-label">Title</label>
+                <label for="title" class="form-label">{{ gettext('admin.pages.title') }}</label>
                 <input type="text" name="title" class="form-control" id="title">
          </div>
      </div>
      <div class="col-6">
          <div class="form-group">
-                <label class="form-label">Content</label>
+                <label class="form-label">{{ gettext('admin.pages.content') }}</label>
                 <div id="editor"></div>
                 <input type="hidden" name="content" id="content">
          </div>
      </div>
       <div class="col-6">
          <div class="form-group">
-                <label for="published_at" class="form-label">Published at</label>
+                <label for="published_at" class="form-label">{{ gettext('admin.pages.published_at') }}</label>
                 <input type="text" name="published_at" class="form-control" id="published_at">
          </div>
      </div>
