@@ -20,6 +20,7 @@
     "add": "Add",
     "actions": "Actions",
     "no_items_found": "No items can be found.",
+    "failed_delete": "Failed to delete",
     "users": {
       "title": "Users",
       "search": "Type here...",

@@ -56,7 +56,7 @@ async function deleteUser(id) {
     if (res.ok) {
         location.reload();
     } else {
-        alert("Failed to delete");
+        alert("{{ gettext('admin.failed_delete') }}");
     }
 }
 </script>
