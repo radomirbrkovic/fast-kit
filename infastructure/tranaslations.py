@@ -19,7 +19,7 @@ class TranslationManager:
 
         return translations
 
-    def gettext(self, key: str, lang: str = None):
+    def gettext(self, key: str, replacements: dict = None, lang: str = None):
         if lang is None:
             lang = os.getenv("LANGUAGE")
         lang_data = self.translations.get(lang, self.translations.get("en", {}))
@@ -33,6 +33,11 @@ class TranslationManager:
                 return key
 
         if isinstance(current_data, str):
+            if replacements:
+                try:
+                    current_data = current_data.format(**replacements)
+                except KeyError:
+                    pass
             return current_data
         else:
             return key
