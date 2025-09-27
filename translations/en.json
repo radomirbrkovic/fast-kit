@@ -44,7 +44,8 @@
       "content": "Content",
       "published_at": "Published at",
       "delete_confirmation": "Are you sure you want to delete this page?",
-      "create_title": "Create page"
+      "create_title": "Create page",
+      "edit_title": "Edit page"
     }
   }
 
