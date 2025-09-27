@@ -1,19 +1,19 @@
 {% extends 'layout.html' %}
-{% set title = "Pages" %}
+{% set title = gettext('admin.pages.index_title') %}
 {% block content %}
 <h2 class="card-title">{{ title }}</h2>
 <div class="row">
     <div class="col-12">
-         <a href="{{ url_for('admin.pages.create') }}" class="btn btn-secondary rounded-3 float-end">Add</a>
+         <a href="{{ url_for('admin.pages.create') }}" class="btn btn-secondary rounded-3 float-end">{{ gettext('admin.add') }}</a>
     </div>
 </div>
 {% if pages|length > 0 %}
     <table class="table">
     <thead>
-        <th class="col">Title</th>
-        <th class="col">Slug</th>
-        <th class="col">Published at</th>
-        <th class="col">Actions</th>
+        <th class="col">{{ gettext('admin.pages.title') }}</th>
+        <th class="col">{{ gettext('admin.pages.slug') }}</th>
+        <th class="col">{{ gettext('admin.pages.published_at') }}</th>
+        <th class="col">{{ gettext('admin.actions') }}</th>
     </thead>
      <tbody>
      {% for page in pages %}
@@ -34,16 +34,16 @@
      </tbody>
 </table>
 {% else %}
-  <p class="mb-1 mt-1 p-2 ">No items can be found.</p>
+  <p class="mb-1 mt-1 p-2 ">{{ gettext('admin.no_items_found') }}</p>
 {% endif %}
 <script>
 async function deleteItem(id) {
-    if (!confirm("Are you sure you want to delete this page?")) return;
+    if (!confirm("{{ gettext('admin.pages.delete_confirmation') }}")) return;
     const res = await fetch(`/admin/pages/${id}`, { method: "DELETE" });
     if (res.ok) {
         location.reload();
     } else {
-        alert("Failed to delete");
+        alert("{{ gettext('admin.failed_delete') }}");
     }
 }
 </script>
