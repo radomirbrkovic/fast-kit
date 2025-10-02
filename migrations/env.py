@@ -7,7 +7,7 @@ from alembic import context
 from models.user import Users
 from models.user_token import UserToken
 from models.page import Page
-from infastructure.database import DEV_DATABASE_URL, Base
+from infrastructure.database import DEV_DATABASE_URL, Base
 
 
 # this is the Alembic Config object, which provides

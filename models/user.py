@@ -1,4 +1,4 @@
-from infastructure.database import Base
+from infrastructure.database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Enum
 from models.enums import UserRole
 

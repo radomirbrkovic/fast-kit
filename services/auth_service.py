@@ -3,14 +3,14 @@ import asyncio
 from sqlalchemy.orm import Session
 from fastapi import Request
 from passlib.context import CryptContext
-from infastructure.database import SessionLocal
+from infrastructure.database import SessionLocal
 from models.enums import UserTokenType
 from models.user import Users
 from repositories.admin.user_token_repository import UserTokenRepository
 from schemas.admin.user_tokens import UserTokenCreate
 from services.admin.user_token_service import UserTokenService
 from routers.admin.admin import templates
-from infastructure.email import send
+from infrastructure.email import send
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

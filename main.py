@@ -7,7 +7,7 @@ from routers.admin.dashboard import router as admin_dashboard_router
 from routers.admin.users import router as admin_users_router
 from routers.admin.pages import router as admin_pages_router
 from middlewares.admin_middleware import GlobalContextMiddleware
-from infastructure.tranaslations import TranslationManager
+from infrastructure.tranaslations import TranslationManager
 
 app = FastAPI()
 
