@@ -14,13 +14,20 @@ It provides a solid foundation with features that most apps need out-of-the-box,
 - ⚡ **FastAPI** – async backend with automatic OpenAPI docs  
 - 🗄️ **PostgreSQL** – reliable and production-ready database  
 
+## 🖼️ FastKit Admin Panel
+
+![Login](static/assets/img/screenshots/login.png)
+![Users](static/assets/img/screenshots/users.png)
+![Edit user](static/assets/img/screenshots/edit-user.png)
+![Create page](static/assets/img/screenshots/create-page.png)
+
 ## 🛠️ Tech Stack
 
 - [FastAPI](https://fastapi.tiangolo.com/) – modern async Python web framework  
 - [PostgreSQL](https://www.postgresql.org/) – database  
 - [SQLAlchemy](https://www.sqlalchemy.org/) – ORM (if you’re using it)  
 - [Docker](https://www.docker.com/) – containerization  
-- [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) – frontend UI  
+- [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) – frontend UI
 
 ## 📁 File structure
 ```
