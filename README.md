@@ -1,7 +1,7 @@
 # ⚡ FastKit
 
 FastKit is a lightweight **starter admin panel** for web applications built with [FastAPI](https://fastapi.tiangolo.com/), [PostgreSQL](https://www.postgresql.org/), and Docker.  
-The UI is based on the beautiful [Argon Dashboard Tailwind](https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html) template by Creative Tim.  
+The UI is based on the beautiful [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) template.  
 
 It provides a solid foundation with features that most apps need out-of-the-box, so you can focus on building what makes your project unique.
 
@@ -20,7 +20,36 @@ It provides a solid foundation with features that most apps need out-of-the-box,
 - [PostgreSQL](https://www.postgresql.org/) – database  
 - [SQLAlchemy](https://www.sqlalchemy.org/) – ORM (if you’re using it)  
 - [Docker](https://www.docker.com/) – containerization  
-- [Argon Dashboard Tailwind](https://www.creative-tim.com/product/argon-dashboard-tailwind) – frontend UI  
+- [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) – frontend UI  
+
+## 📁 File structure
+
+fast-kit/
+├── infrastructure/
+├── middlewares/
+├── migrations/
+├── models/
+├── repositories/
+├── routers/
+├── schemas/
+├── seeders/
+├── services/
+├── static/               # assets
+│   └── assets/
+├── templates/            # admin templates
+│   └── admin/
+├── tests/
+├── translations/
+├── .env.exmaple
+├── .gitignore
+├── README.md
+├── alembic.ini
+├── cli.py
+├── docker-compose.yml
+├── main.py
+├── pytest.ini
+└── requirements.txt
+
 
 ## 🚀 Getting Started
 
