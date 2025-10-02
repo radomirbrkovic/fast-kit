@@ -10,6 +10,8 @@ It provides a solid foundation with features that most apps need out-of-the-box,
 - 🔐 **User & Role Management** – authentication, user accounts, and role-based permissions  
 - 📄 **Public Pages** – create and manage basic pages for your app  
 - 📊 **Dashboard** – modern Tailwind-powered admin interface  
+- ✉️ **SMTP Email Support** – send emails with HTML templates through an SMTP server
+- 🌍 **Multi-language Support** – translations can be set via JSON files for different languages
 - 🐳 **Dockerized** – easy local setup and deployment  
 - ⚡ **FastAPI** – async backend with automatic OpenAPI docs  
 - 🗄️ **PostgreSQL** – reliable and production-ready database  
