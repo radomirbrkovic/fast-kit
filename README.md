@@ -5,11 +5,13 @@ The UI is based on the beautiful [Bootstrap 5](https://getbootstrap.com/docs/5.0
 
 It provides a solid foundation with features that most apps need out-of-the-box, so you can focus on building what makes your project unique.
 
+Use FastKit if you want to quickly scaffold an admin interface for your FastAPI application, manage users and roles, and have multi-language support out of the box.
+
 ## ✨ Features
 
 - 🔐 **User & Role Management** – authentication, user accounts, and role-based permissions  
 - 📄 **Public Pages** – create and manage basic pages for your app  
-- 📊 **Dashboard** – modern Tailwind-powered admin interface  
+- 📊 **Dashboard** – modern Bootstrap 5 admin interface  
 - ✉️ **SMTP Email Support** – send emails with HTML templates through an SMTP server
 - 🌍 **Multi-language Support** – translations can be set via JSON files for different languages
 - 🐳 **Dockerized** – easy local setup and deployment  
@@ -66,7 +68,7 @@ fast-kit/
 ## 🚀 Getting Started
 
 ### 1. Clone the repository
-```bash
+```
 git clone https://github.com/radomirbrkovic/fast-kit.git
 cd fast-kit
 ```
@@ -101,7 +103,7 @@ Start the app:
   ```
 
 ### 5. Running seeders 
-
+This will create a default admin user you can use to log in.
 ``` 
 python seeders/users_table_seeder.py
  ```
@@ -109,7 +111,6 @@ python seeders/users_table_seeder.py
 Open in browser:
 👉 http://localhost:8000
 
-Swagger UI → http://localhost:8000/docs
-
-Admin → http://localhost:8000/admin
+- Swagger UI → http://localhost:8000/docs
+- Admin → http://localhost:8000/admin
 
