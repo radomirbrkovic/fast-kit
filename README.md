@@ -23,7 +23,7 @@ It provides a solid foundation with features that most apps need out-of-the-box,
 - [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) – frontend UI  
 
 ## 📁 File structure
-
+```
 fast-kit/
 ├── infrastructure/
 ├── middlewares/
@@ -49,6 +49,9 @@ fast-kit/
 ├── main.py
 ├── pytest.ini
 └── requirements.txt
+
+```
+
 
 
 ## 🚀 Getting Started
