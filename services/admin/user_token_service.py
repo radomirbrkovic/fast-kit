@@ -25,7 +25,7 @@ class UserTokenService:
         if not user_token or user_token is None:
             raise HTTPException(status_code=404, detail="Token doesn't exists in the database.")
 
-        if datetime.now(UTC) > user_token.expires_at:
+        if datetime.now(UTC) >  user_token.expires_at.replace(tzinfo=UTC):
             raise HTTPException(status_code=404, detail="Token has expired.")
 
         return user_token
