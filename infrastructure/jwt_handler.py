@@ -10,8 +10,8 @@ ALGORITHM = "HS256"
 
 SECRET_KEY = os.getenv("API_SECRET_KEY", "fastkit-secretkey")
 REFRESH_SECRET_KEY = os.getenv("API_REFRESH_SECRET_KEY", "astkit-refresh-secretkey")
-ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("API_ACCESS_TOKEN_EXPIRE_MINUTES", 60)
-REFRESH_TOKEN_EXPIRE_DAYS = os.getenv("API_REFRESH_TOKEN_EXPIRE_DAYS", 7)
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("API_ACCESS_TOKEN_EXPIRE_MINUTES", 60))
+REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("API_REFRESH_TOKEN_EXPIRE_DAYS", 7))
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()

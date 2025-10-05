@@ -39,7 +39,7 @@ class AuthService:
         if not user:
             return None
 
-        token_data = {"sub": str(user.id), "role": user.role}
+        token_data = {"sub": str(user.id), "role": user.role.value}
 
         access_token = create_access_token(token_data)
         refresh_token = create_refresh_token(token_data)
@@ -52,12 +52,12 @@ class AuthService:
                 "id": user.id,
                 "email": user.email,
                 "first_name": user.first_name,
-                "last_name": user.last_name,
-                "role": user.role
+                "last_name": user.last_name
             }
         }
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
+        print(pwd_context.verify("password", "$2b$12$h7D7eZVtQY7oyJ0hO2l7ieZ.L0n81qToaWcVDYwcg7WJpwJQtn9gC"))
         return pwd_context.verify(plain_password, hashed_password)
 
     # Get authenticated user by session

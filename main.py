@@ -9,6 +9,9 @@ from routers.admin.pages import router as admin_pages_router
 from middlewares.admin_middleware import GlobalContextMiddleware
 from infrastructure.tranaslations import TranslationManager
 
+#API routers
+from routers.api.auth import router as api_auth_router
+
 app = FastAPI()
 
 app.add_middleware(SessionMiddleware, os.getenv('ADMIN_SECRET_KEY', ''))
@@ -20,6 +23,9 @@ app.include_router(admin_pages_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 translation_manager = TranslationManager()
+
+#API routers
+app.include_router(api_auth_router)
 
 @app.get('/')
 async def welcome():
