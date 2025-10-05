@@ -11,6 +11,7 @@ from schemas.admin.user_tokens import UserTokenCreate
 from services.admin.user_token_service import UserTokenService
 from routers.admin.admin import templates
 from infrastructure.email import send
+from infrastructure.jwt_handler import create_access_token, create_refresh_token, refresh_access_token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -32,6 +33,29 @@ class AuthService:
             return None
 
         return user
+
+    def api_authenticate(self, email: str, password: str, role: str = "User"):
+        user = self.authenticate(email, password, role)
+        if not user:
+            return None
+
+        token_data = {"sub": str(user.id), "role": user.role}
+
+        access_token = create_access_token(token_data)
+        refresh_token = create_refresh_token(token_data)
+
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "role": user.role
+            }
+        }
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
