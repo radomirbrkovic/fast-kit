@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta, UTC
 from jose import  jwt, JWTError
-from typing import Optional
+from typing import Optional, Dict
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
+ALGORITHM = "HS256"
+
 SECRET_KEY = os.getenv("API_SECRET_KEY", "fastkit-secretkey")
 REFRESH_SECRET_KEY = os.getenv("API_REFRESH_SECRET_KEY", "astkit-refresh-secretkey")
-ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("API_ACCESS_TOKEN_EXPIRE_MINUTES", 60)
 REFRESH_TOKEN_EXPIRE_DAYS = os.getenv("API_REFRESH_TOKEN_EXPIRE_DAYS", 7)
 
@@ -25,9 +26,10 @@ def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None) 
     to_encode.update({"exp": expire, "type": "refresh"})
     return jwt.encode(to_encode, REFRESH_SECRET_KEY, algorithm=ALGORITHM)
 
-def verify_token(token: str):
+def verify_token(token: str,  refresh: bool = False) -> Optional[Dict]:
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        secret = REFRESH_SECRET_KEY if refresh else SECRET_KEY
+        payload = jwt.decode(token, secret, algorithms=[ALGORITHM])
         return payload
     except JWTError:
         return None
