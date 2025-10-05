@@ -1,5 +1,11 @@
 {
   "welcome_message": "Welcome to FastKit, Admin panel developed in FastAPI.",
+  "api": {
+    "auth": {
+      "invalid_credentials": "Invalid credentials",
+      "invalid_refresh_token": "Invalid or expired refresh token"
+    }
+  },
   "admin": {
     "sign_in": "Sign in",
     "email": "Email address",
