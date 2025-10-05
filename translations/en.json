@@ -3,7 +3,10 @@
   "api": {
     "auth": {
       "invalid_credentials": "Invalid credentials",
-      "invalid_refresh_token": "Invalid or expired refresh token"
+      "invalid_refresh_token": "Invalid or expired refresh token",
+      "invalid_token": "Invalid or expired token",
+      "invalid_authorization_token": "Authorization header missing or invalid",
+      "user_not_found": "User not found"
     }
   },
   "admin": {
