@@ -33,3 +33,15 @@ def verify_token(token: str,  refresh: bool = False) -> Optional[Dict]:
         return payload
     except JWTError:
         return None
+
+def refresh_access_token(refresh_token: str) -> Optional[Dict]:
+    payload = verify_token(refresh_token, refresh=True)
+    if not payload or payload.get('type') != "refresh":
+        return None
+
+    user_data = {"sub": payload.get("sub"), "role": payload.get("role")}
+    new_access = create_access_token(user_data)
+    return  {
+        "access_token": new_access,
+        "token_type": "bearer"
+    }
