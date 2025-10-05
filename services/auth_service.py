@@ -82,6 +82,12 @@ class AuthService:
 
         return True
 
+    def api_refresh_token(self, refresh_token: str):
+        new_token = refresh_access_token(refresh_token)
+        if not new_token:
+            return None
+        return new_token
+
     def _send_reset_password_email(self, user, user_token, request):
         template = templates.env.get_template('emails/reset_password.html')
         asyncio.create_task(send(user.email, "Reset Password", template.render({
