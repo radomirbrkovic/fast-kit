@@ -2,15 +2,15 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 import os
-from routers.admin.auth import router as admin_auth_router
-from routers.admin.dashboard import router as admin_dashboard_router
-from routers.admin.users import router as admin_users_router
-from routers.admin.pages import router as admin_pages_router
-from middlewares.admin_middleware import GlobalContextMiddleware
-from infrastructure.tranaslations import TranslationManager
+from app.routers.admin.auth import router as admin_auth_router
+from app.routers.admin.dashboard import router as admin_dashboard_router
+from app.routers.admin.users import router as admin_users_router
+from app.routers.admin.pages import router as admin_pages_router
+from app.middlewares.admin_middleware import GlobalContextMiddleware
+from app.infrastructure.tranaslations import TranslationManager
 
 #API routers
-from routers.api.auth import router as api_auth_router
+from app.routers.api.auth import router as api_auth_router
 
 app = FastAPI()
 
