@@ -2,6 +2,7 @@
 import argparse
 import subprocess
 import sys
+import os
 
 
 def run_command(command, cwd=None):
@@ -11,10 +12,15 @@ def run_command(command, cwd=None):
     if process.returncode != 0:
         sys.exit(process.returncode)
 
+def get_paths():
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    venv_python = os.path.join(project_root, "venv", "bin", "python")
+    return project_root, venv_python
+
 
 def install_dependencies():
     print("📦 Installing dependencies...")
-    run_command("source venv/bin/activate && pip cd ..install -r requirements.txt")
+    run_command("source venv/bin/activate && pip install -r requirements.txt")
 
 
 def run_database():
