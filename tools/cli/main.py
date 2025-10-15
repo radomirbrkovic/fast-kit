@@ -6,7 +6,7 @@ import sys
 
 def run_command(command, cwd=None):
     """Execute shell command with live output."""
-    process = subprocess.Popen(command, shell=True, cwd=cwd)
+    process = subprocess.Popen(command, shell=True, cwd=cwd, executable="/bin/bash")
     process.communicate()
     if process.returncode != 0:
         sys.exit(process.returncode)
@@ -14,7 +14,7 @@ def run_command(command, cwd=None):
 
 def install_dependencies():
     print("📦 Installing dependencies...")
-    run_command("source venv/bin/activate && pip install -r requirements.txt")
+    run_command("source venv/bin/activate && pip cd ..install -r requirements.txt")
 
 
 def run_database():
@@ -29,17 +29,17 @@ def run_server():
 
 def generate_migrations():
     print("🧩 Generating migrations...")
-    run_command("alembic revision --autogenerate -m 'Auto migration'")
+    run_command("source venv/bin/activate && alembic revision --autogenerate -m 'Auto migration'")
 
 
 def execute_migrations():
     print("📂 Applying migrations...")
-    run_command("alembic upgrade head")
+    run_command("source venv/bin/activate && alembic upgrade head")
 
 
 def rollback_migration():
     print("⏪ Rolling back last migration...")
-    run_command("alembic downgrade -1")
+    run_command("source venv/bin/activate && alembic downgrade -1")
 
 
 def execute_seeder():
