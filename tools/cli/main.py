@@ -50,7 +50,7 @@ def rollback_migration():
 
 def execute_seeder():
     print("🌱 Running seeders...")
-    run_command("source venv/bin/activate && python app/db/seeders/main.py")
+    run_command("source venv/bin/activate && python -m app.seeders.main")
 
 
 def update_project():
