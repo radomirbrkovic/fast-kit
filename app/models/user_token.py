@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from app.infrastructure.database import Base
+from app.infrastructure.database.connection import Base
 from app.models.enums import UserTokenType
 
 class UserToken(Base):
