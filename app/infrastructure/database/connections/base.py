@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class DatabaseStrategy(ABC):
+class Base(ABC):
     @abstractmethod
     def get_session(self):
         pass

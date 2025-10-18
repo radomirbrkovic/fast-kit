@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .base_strategy import DatabaseStrategy
+from .base import Base
 
-class PostgresStrategy(DatabaseStrategy):
+class Postgres(Base):
     def __init__(self, base, username, password, host, db_name, port):
         self.base = base
         url = f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{db_name}"
