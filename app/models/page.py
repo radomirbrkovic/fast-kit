@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text
-from app.infrastructure.database import Base
+from app.infrastructure.database.connection import Base
 
 class Page(Base):
     __tablename__ = "pages"

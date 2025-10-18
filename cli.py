@@ -1,5 +1,5 @@
 import typer
-from app.infrastructure.database import SessionLocal
+from app.infrastructure.database.connection import get_database_connection
 from app.seeders import users_table_seeder
 
 app = typer.Typer()
@@ -9,7 +9,8 @@ def seed():
     """
     Runs the database seeders.
     """
-    db = SessionLocal()
+    db_connection = get_database_connection()
+    db = db_connection.get_session()
     try:
         users_table_seeder.run(db)
         print("Database seeding completed successfully.")

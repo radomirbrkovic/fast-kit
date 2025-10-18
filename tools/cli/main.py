@@ -23,11 +23,6 @@ def install_dependencies():
     run_command("source venv/bin/activate && pip install -r requirements.txt")
 
 
-def run_database():
-    print("🐳 Starting database via Docker Compose...")
-    run_command("docker compose up -d")
-
-
 def run_server():
     print("🚀 Running FastAPI server...")
     run_command("source venv/bin/activate && uvicorn main:app --reload")
@@ -65,7 +60,6 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     subparsers.add_parser("install", help="Install project dependencies")
-    subparsers.add_parser("db", help="Run database containers (Docker)")
     subparsers.add_parser("run", help="Run FastAPI development server")
     subparsers.add_parser("makemigrations", help="Generate Alembic migrations")
     subparsers.add_parser("migrate", help="Apply database migrations")
@@ -77,8 +71,6 @@ def main():
 
     if args.command == "install":
         install_dependencies()
-    elif args.command == "db":
-        run_database()
     elif args.command == "run":
         run_server()
     elif args.command == "makemigrations":

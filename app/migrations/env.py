@@ -4,8 +4,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from app.infrastructure.database import DEV_DATABASE_URL, Base
-
+from app.infrastructure.database.connection import get_database_connection, Base
+db_connection = get_database_connection()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,7 +23,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 
-config.set_section_option("alembic", "sqlalchemy.url", DEV_DATABASE_URL)
+config.set_section_option("alembic", "sqlalchemy.url", db_connection.get_url())
 #config.set_section_option("testdb", "sqlalchemy.url", os.environ.get("TEST_DATABASE_URL"))
 
 # other values from the config, defined by the needs of env.py,
