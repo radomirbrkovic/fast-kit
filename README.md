@@ -1,7 +1,7 @@
 # ⚡ FastKit
 
-FastKit is a lightweight **starter admin panel** for web applications built with [FastAPI](https://fastapi.tiangolo.com/), [PostgreSQL](https://www.postgresql.org/), and Docker.  
-The UI is based on the beautiful [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) template.  
+FastKit is a lightweight starter admin panel for web applications built with [FastAPI](https://fastapi.tiangolo.com/).
+The UI is based on the beautiful [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) template.
 
 It provides a solid foundation with features that most apps need out-of-the-box, so you can focus on building what makes your project unique.
 
@@ -9,14 +9,14 @@ Use FastKit if you want to quickly scaffold an admin interface for your FastAPI 
 
 ## ✨ Features
 
-- 🔐 **User & Role Management** – authentication, user accounts, and role-based permissions  
-- 📄 **Public Pages** – create and manage basic pages for your app  
-- 📊 **Dashboard** – modern Bootstrap 5 admin interface  
-- ✉️ **SMTP Email Support** – send emails with HTML templates through an SMTP server
-- 🌍 **Multi-language Support** – translations can be set via JSON files for different languages
-- 🐳 **Dockerized** – easy local setup and deployment  
-- ⚡ **FastAPI** – async backend with automatic OpenAPI docs  
-- 🗄️ **PostgreSQL** – reliable and production-ready database  
+- 🔐 User & Role Management – authentication, user accounts, and role-based permissions
+- 📄 Public Pages – create and manage basic pages for your app
+- 📊 Dashboard – modern Bootstrap 5 admin interface
+- ✉️ Mail Support – send emails via SMTP or other mail services (configurable)
+- 🌍 Multi-language Support – translations via JSON files for different languages
+- ⚡ FastAPI – async backend with automatic OpenAPI docs
+- 🗄️ Database-Agnostic – support for PostgreSQL, MySQL, SQLite, and MongoDB
+- 🛠️ CLI Tool – manage project setup, dependencies, migrations, seeders, and server
 
 ## 🖼️ FastKit Admin Panel
 
@@ -27,39 +27,52 @@ Use FastKit if you want to quickly scaffold an admin interface for your FastAPI 
 
 ## 🛠️ Tech Stack
 
-- [FastAPI](https://fastapi.tiangolo.com/) – modern async Python web framework  
-- [PostgreSQL](https://www.postgresql.org/) – database  
+- [FastAPI](https://fastapi.tiangolo.com/) – modern async Python web framework 
 - [SQLAlchemy](https://www.sqlalchemy.org/) – ORM (if you’re using it)  
-- [Docker](https://www.docker.com/) – containerization  
 - [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) – frontend UI
 
 ## 📁 File structure
 ```
 fast-kit/
-├── infrastructure/
-├── middlewares/
-├── migrations/
-├── models/
-├── repositories/
-├── routers/
-├── schemas/
-├── seeders/
-├── services/
-├── static/               # assets
-│   └── assets/
-├── templates/            # admin templates
-│   └── admin/
-├── tests/
-├── translations/
-├── .env.exmaple
-├── .gitignore
-├── README.md
-├── alembic.ini
-├── cli.py
-├── docker-compose.yml
-├── main.py
-├── pytest.ini
-└── requirements.txt
+├── app
+│   ├── infrastructure
+│   │   └── database
+│   │       └── connections
+│   ├── middlewares
+│   ├── migrations
+│   │   └── versions
+│   ├── models
+│   ├── repositories
+│   │   └── admin
+│   ├── routers
+│   │   ├── admin
+│   │   └── api
+│   ├── schemas
+│   │   └── admin
+│   ├── seeders
+│   ├── services
+│   │   └── admin
+│   └── tests
+│       └── unit
+│           └── admin
+├── static
+│   └── assets
+│       ├── css
+│       ├── fonts
+│       ├── img
+│       │   └── screenshots
+│       └── js
+├── templates
+│   └── admin
+│       ├── auth
+│       ├── emails
+│       ├── pages
+│       ├── partials
+│       └── users
+├── tools
+│   └── cli
+└── translations
+
 
 ```
 
@@ -73,40 +86,42 @@ git clone https://github.com/radomirbrkovic/fast-kit.git
 cd fast-kit
 ```
 
-### 2. Create environment file
-``` 
-cp .env.example .env 
+### 2. Run setup script
+
+This will automatically:
+
+- Create and activate the virtual environment
+
+- Copy the .env file
+
+- Install all dependencies
+```
+./tools/cli/setup.sh
 ```
 
 
-### 3. Start with Docker
-``` 
-docker-compose up --build 
+### 3. Apply migrations
+
 ```
-
-### 4. Create and activate a virtual environment:
-
-``` python3 -m venv venv
-    source venv/bin/activate  # on Linux / macOS
-    venv\Scripts\activate     # on Windows
+fastkit migrate
 ```
 
 
-Install dependencies:
-```
-pip install -r requirements.txt
-```
+### 4. Run seeders
 
-Start the app:
-```
- uvicorn app.main:app --reload
-  ```
-
-### 5. Running seeders 
 This will create a default admin user you can use to log in.
-``` 
-python seeders/users_table_seeder.py
- ```
+
+```
+fastkit seed
+```
+
+
+### 5. Start the development server
+```
+fastkit run
+```
+
+
 
 Open in browser:
 👉 http://localhost:8000
@@ -114,3 +129,23 @@ Open in browser:
 - Swagger UI → http://localhost:8000/docs
 - Admin → http://localhost:8000/admin
 
+## ⚡ CLI Tool
+
+FastKit comes with a command-line tool to simplify common tasks:
+
+| Command                  | Description                              |
+| ------------------------ | ---------------------------------------- |
+| `fastkit install`        | Install Python dependencies              |
+| `fastkit run`            | Run FastAPI development server           |
+| `fastkit makemigrations` | Generate Alembic migrations              |
+| `fastkit migrate`        | Apply database migrations                |
+| `fastkit rollback`       | Rollback last migration                  |
+| `fastkit seed`           | Run seeders (creates default admin user) |
+| `fastkit update`         | Pull latest project updates from git     |
+
+
+⚠️ Note: Seeders and migrations will automatically detect the database driver from .env and work with PostgreSQL, MySQL, SQLite, or MongoDB (seeders only for MongoDB; migrations are SQL-only).
+
+## 📝 License
+
+This project is licensed under the [MIT License](https://opensource.org/license/MIT).
