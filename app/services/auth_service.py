@@ -3,7 +3,7 @@ import asyncio
 from sqlalchemy.orm import Session
 from fastapi import Request
 from passlib.context import CryptContext
-from app.infrastructure.database import SessionLocal
+from app.infrastructure.database.connection import get_database_connection
 from app.models.enums import UserTokenType
 from app.models.user import Users
 from app.repositories.admin.user_token_repository import UserTokenRepository
@@ -14,10 +14,11 @@ from app.infrastructure.email import send
 from app.infrastructure.jwt_handler import create_access_token, create_refresh_token, refresh_access_token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+db_connection = get_database_connection()
 
 class AuthService:
     def __init__(self):
-        self.db: Session = SessionLocal()
+        self.db: Session = db_connection.get_session()
         self.model = self.db.query(Users)
 
     def authenticate(self, email: str, password: str, role: str):

@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from app.models.enums import UserRole
 from app.models.user import Users
-from app.infrastructure.database import SessionLocal
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -14,7 +13,7 @@ class UserCreate(BaseModel):
     hashed_password: str | None = Field(default=None, exclude=True)
 
     @staticmethod
-    def validate_unique_email(v, db: SessionLocal):
+    def validate_unique_email(v, db):
         if db is None:
             raise ValueError("DB session not provided for uniqueness check.")
         if db.query(Users).filter_by(email=v).first():
@@ -29,7 +28,7 @@ class UserUpdate(BaseModel):
     phone_number: Optional[str] = None
 
     @staticmethod
-    def validate_unique_email(v, id, db: SessionLocal):
+    def validate_unique_email(v, id, db):
         if db is None:
             raise ValueError("DB session not provided for uniqueness check.")
         if  db.query(Users).filter(Users.email == v, Users.id != id).first():
