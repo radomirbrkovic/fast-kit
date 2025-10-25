@@ -1,5 +1,3 @@
-import asyncio
-
 from sqlalchemy.orm import Session
 from fastapi import Request
 from passlib.context import CryptContext
@@ -10,7 +8,7 @@ from app.repositories.admin.user_token_repository import UserTokenRepository
 from app.schemas.admin.user_tokens import UserTokenCreate
 from app.services.admin.user_token_service import UserTokenService
 from app.routers.admin.admin import templates
-from app.infrastructure.email import send
+from mailbridge.mail import Mail
 from app.infrastructure.jwt_handler import create_access_token, create_refresh_token, refresh_access_token
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -91,8 +89,8 @@ class AuthService:
 
     def _send_reset_password_email(self, user, user_token, request):
         template = templates.env.get_template('emails/reset_password.html')
-        asyncio.create_task(send(user.email, "Reset Password", template.render({
+        Mail.send(user.email, "Reset Password", template.render({
             'request': request,
             'user': user,
             'url':  request.url_for('admin.reset-password.form', token=user_token.token)
-        })))
+        }))

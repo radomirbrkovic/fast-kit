@@ -7,12 +7,11 @@ from app.repositories.admin.user_repository import UserRepository
 from app.repositories.admin.user_token_repository import UserTokenRepository
 from app.models.user import Users
 from passlib.context import CryptContext
-from app.infrastructure.email import send
+from mailbridge.mail import Mail
 from app.routers.admin.admin import templates
 from starlette.requests import Request
 import secrets
 import string
-import asyncio
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
@@ -46,9 +45,9 @@ class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
 
     def _send_welcome_email(self, user, password: str, user_token):
         template = templates.env.get_template('emails/welcome.html')
-        asyncio.create_task(send(user.email, "Welcome", template.render({
+        Mail.send(user.email, "Welcome", template.render({
             'request': self.request,
             'user': user,
             'password': password,
             'url':  self.request.url_for('admin.reset-password.form', token=user_token.token)
-        })))
+        }))
