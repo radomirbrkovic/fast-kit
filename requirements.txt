@@ -26,7 +26,7 @@ iniconfig==2.1.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
 jmespath==1.0.1
-mailbridge==1.0.1
+mailbridge==2.0.0
 Mako==1.3.10
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2

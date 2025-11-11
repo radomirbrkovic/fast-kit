@@ -7,13 +7,22 @@ from app.repositories.admin.user_repository import UserRepository
 from app.repositories.admin.user_token_repository import UserTokenRepository
 from app.models.user import Users
 from passlib.context import CryptContext
-from mailbridge.mail import Mail
+from mailbridge import MailBridge
 from app.routers.admin.admin import templates
 from starlette.requests import Request
 import secrets
 import string
+import os
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+mailer = MailBridge(provider='smtp',
+    host=os.getenv('MAIL_HOST'),
+    port=os.getenv('MAIL_PORT'),
+    username=os.getenv('MAIL_USERNAME'),
+    password=os.getenv('MAIL_PASSWORD'),
+    use_tls=True,
+    from_email=os.getenv('MAIL_USERNAME')
+)
 
 class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
     def __init__(self, repo: UserRepository):
@@ -45,7 +54,9 @@ class UserService(BaseCrudService[Users, UserCreate, UserUpdate]):
 
     def _send_welcome_email(self, user, password: str, user_token):
         template = templates.env.get_template('emails/welcome.html')
-        Mail.send(user.email, "Welcome", template.render({
+        mailer.send(to=user.email,
+                    subject="Welcome",
+                    body=template.render({
             'request': self.request,
             'user': user,
             'password': password,

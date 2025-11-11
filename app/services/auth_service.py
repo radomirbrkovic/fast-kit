@@ -8,11 +8,20 @@ from app.repositories.admin.user_token_repository import UserTokenRepository
 from app.schemas.admin.user_tokens import UserTokenCreate
 from app.services.admin.user_token_service import UserTokenService
 from app.routers.admin.admin import templates
-from mailbridge.mail import Mail
+from mailbridge import MailBridge
 from app.infrastructure.jwt_handler import create_access_token, create_refresh_token, refresh_access_token
+import os
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 db_connection = get_database_connection()
+mailer = MailBridge(provider='smtp',
+    host=os.getenv('MAIL_HOST'),
+    port=os.getenv('MAIL_PORT'),
+    username=os.getenv('MAIL_USERNAME'),
+    password=os.getenv('MAIL_PASSWORD'),
+    use_tls=True,
+    from_email=os.getenv('MAIL_USERNAME')
+)
 
 class AuthService:
     def __init__(self):
@@ -89,7 +98,9 @@ class AuthService:
 
     def _send_reset_password_email(self, user, user_token, request):
         template = templates.env.get_template('emails/reset_password.html')
-        Mail.send(user.email, "Reset Password", template.render({
+        mailer.send(to=user.email,
+                    subject="Reset Password",
+                    body=template.render({
             'request': request,
             'user': user,
             'url':  request.url_for('admin.reset-password.form', token=user_token.token)
